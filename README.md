@@ -1,4 +1,4 @@
-# React-Time-Picker-INPUT
+# React-Time-Picker-Input
 
 Simple and light time picker for React app.
 
