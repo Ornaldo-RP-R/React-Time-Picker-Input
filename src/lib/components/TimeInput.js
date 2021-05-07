@@ -35,14 +35,11 @@ function TimeInput(props) {
       let hour24Format = !hour12Format && doubleChar(hour);
       let hour12Am = amPm === "AM" && hour === "12" && "00";
       const calculateHour = parseInt(hour) + (amPm === "PM" && hour !== "12" ? 12 : 0);
-      let dateString24 = (hour24Format || hour12Am || calculateHour).toString() + ":" + minute;
+      let dateString24 = doubleChar((hour24Format || hour12Am || calculateHour).toString() )+ ":" + minute;
       let hour24 = dateString24.substring(0, 2);
       let hour12 = doubleChar(parseInt(hour24) < 12 ? hour24 : parseInt(hour24) - 12);
       let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
-      onChange({
-        format24h: dateString24,
-        format12h: `${dateString24.replace(hour24, hour12 === "00" ? "12" : hour12)} ${amPmString}`,
-      });
+      onChange(dateString24);
     }
   }, [hour, minute, amPm]);
 

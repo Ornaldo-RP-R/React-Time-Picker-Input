@@ -11,8 +11,6 @@ require("core-js/modules/es.regexp.to-string.js");
 
 require("core-js/modules/web.dom-collections.iterator.js");
 
-require("core-js/modules/es.string.replace.js");
-
 var _react = _interopRequireWildcard(require("react"));
 
 var _InputTimeHelper = _interopRequireDefault(require("./InputTimeHelper"));
@@ -74,14 +72,11 @@ function TimeInput(props) {
       let hour24Format = !hour12Format && (0, _actions.doubleChar)(hour);
       let hour12Am = amPm === "AM" && hour === "12" && "00";
       const calculateHour = parseInt(hour) + (amPm === "PM" && hour !== "12" ? 12 : 0);
-      let dateString24 = (hour24Format || hour12Am || calculateHour).toString() + ":" + minute;
+      let dateString24 = (0, _actions.doubleChar)((hour24Format || hour12Am || calculateHour).toString()) + ":" + minute;
       let hour24 = dateString24.substring(0, 2);
       let hour12 = (0, _actions.doubleChar)(parseInt(hour24) < 12 ? hour24 : parseInt(hour24) - 12);
       let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
-      onChange({
-        format24h: dateString24,
-        format12h: "".concat(dateString24.replace(hour24, hour12 === "00" ? "12" : hour12), " ").concat(amPmString)
-      });
+      onChange(dateString24);
     }
   }, [hour, minute, amPm]);
   (0, _react.useEffect)(() => {

@@ -92,7 +92,7 @@ const InputTimeHelper = props => {
     }
   }, [changedValue]);
 
-  const onBackSpaceTap = e => e.key === "Backspace" && allowDelete && setSafeValue("");
+  const onBackSpaceTap = e => e.key === "Backspace" && allowDelete && setValue("");
 
   const onSideArrowTap = e => {
     e.key === "ArrowRight" && moveNext && moveNext();
