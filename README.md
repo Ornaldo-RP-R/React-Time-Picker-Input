@@ -85,8 +85,10 @@ or
 
 ## Props
 
-| PropName | Type | default | description |
-| onChange | function | (newValue)=>{} | function that access newValue (new date) param it returns time string if it is valid or if any of parts is empty doesnt fire |
-| value | String | "- -" | Defines default value of TimePicker. Required format ("HH:mm") ex("22:04") -> always 24Hour format |
-| hour12Format | boolean |false | make it true to make input 12HourFormat support see on demo example |
-| allowDelete | String | false | make it true if you want to allow user to delete hour and minute using Backspace |
+| PropName     | Type     | default        | description                                                                                       |
+| --------     | -------- | -------------- | ------------------------------------------------------------------------------------------------- |
+| onChange     | function | (newValue)=>{} | function that access newValue (new date) param it returns time string if it is valid or if any of |  
+| --------     | -------- | -------------- |                                                                        parts is empty doesnt fire |
+| value        | String   | "- -"          | Defines default value of TimePicker. Required format ("HH:mm") ex("22:04") -> always 24Hour format|
+| hour12Format | boolean  | false          | make it true to make input 12HourFormat support see on demo example                               |
+| allowDelete  | String   | false          | make it true if you want to allow user to delete hour and minute using Backspace                  |
