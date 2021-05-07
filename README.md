@@ -1,19 +1,19 @@
-#React-Time-Picker-INPUT
+# React-Time-Picker-INPUT
 Simple and light time picker for React app.
 
 No moment.js needed
 
-##Installation
+## Installation
 npm install react-time-picker-input
 yarn add react-time-picker-input
 
-##Import
+## Import
 import TimePicker from 'react-time-picker'
 
-##Demo
+## Demo
 [See Demo](https://github.com/Ornaldo-RP-R/react-time-picker-test)
 
-##Usage
+## Usage
 Here's an example of basic usage:
 
 ```JSX
@@ -35,7 +35,7 @@ const [value, setValue] = useState('10:00');
 }
 ```
 
-##Custom styling
+## Custom styling
 
 edit Style for :
 input wrapper
@@ -83,7 +83,8 @@ or
 }
 ```
 
-##Props
+## Props
+
 |PropName |Type |default| description|
 |onChange |function |(newValue)=>{} |function that access newValue (new date) param it returns time
 string if it is valid or if any of parts is empty doesnt fire|
