@@ -10,7 +10,7 @@ const InputTimeHelper = (props) => {
 
   const cleanNumber = (number) => (!isNaN(number) ? number : "").toString().replace("0", "");
   const setSafeValue = (value) => {
-    if (parseInt(value) >= range.start && parseInt(value) <= range.end) {
+    if (parseInt(value) > range.start && parseInt(value) < range.end) {
       setValue(value);
     }
   };
