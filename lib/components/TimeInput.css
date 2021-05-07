@@ -1,0 +1,49 @@
+.react-time-input-picker {
+  width: max-content;
+  border-bottom: 1px solid #dadada;
+  border-radius: 2px;
+  padding: 5px 10px;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  margin: 10px;
+}
+.react-time-input-picker input {
+  position: relative;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 2px;
+  width: max-content;
+  min-width: 30px;
+  text-align: center;
+  border: none;
+  outline: none;
+}
+
+.react-time-input-picker input::placeholder {
+  opacity: 1;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.react-time-input-picker input:focus {
+  caret-color: transparent;
+  background-color: #dadada;
+}
+
+.react-time-input-picker span {
+  padding: 5px 0;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-time-input-picker input[type="text"] {
+  min-width: unset;
+  max-width: 30px;
+}
