@@ -27,17 +27,18 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-const InputTimeHelper = _ref => {
-  let {
+const InputTimeHelper = props => {
+  const {
     range,
     value,
     setValue,
     moveNext,
     movePrev,
+    inputRef,
     allowDelete,
     toggleAmPm
-  } = _ref,
-      otherProps = _objectWithoutProperties(_ref, ["range", "value", "setValue", "moveNext", "movePrev", "allowDelete", "toggleAmPm"]);
+  } = props,
+        otherProps = _objectWithoutProperties(props, ["range", "value", "setValue", "moveNext", "movePrev", "inputRef", "allowDelete", "toggleAmPm"]);
 
   const [changedValue, setChangedValue] = (0, _react.useState)(value);
   const [keyPressed, setKeyPressed] = (0, _react.useState)("");
@@ -130,7 +131,8 @@ const InputTimeHelper = _ref => {
     onFocus: () => {
       setFirstFocus(true);
       setChangeCount(0);
-    }
+    },
+    ref: inputRef
   }, otherProps, {
     value: value,
     onKeyDown: e => {

@@ -52,6 +52,9 @@ function TimeInput(props) {
   const [hour, setHour] = (0, _react.useState)(dateParts.hour);
   const [minute, setMinutes] = (0, _react.useState)(dateParts.minute);
   const [amPm, _setAmPM] = (0, _react.useState)(dateParts.amPm);
+  const hourRef = (0, _react.useRef)(null);
+  const minuteRef = (0, _react.useRef)(null);
+  const amPmRef = (0, _react.useRef)(null);
   const hourRange = hour12Format ? {
     start: 1,
     end: 12
@@ -60,7 +63,9 @@ function TimeInput(props) {
     end: 23
   };
 
-  const focusElementById = id => document.getElementById("react-time-input-picker__" + id).focus();
+  const focusElementByRef = ref => {
+    ref.current && ref.current.focus();
+  };
 
   const toggleAmPm = () => _setAmPM(amPm === "AM" ? "PM" : "AM");
 
@@ -91,29 +96,32 @@ function TimeInput(props) {
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "react-time-input-picker"
   }, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
+    inputRef: hourRef,
     id: "react-time-input-picker__hourInput",
     value: hour,
     placeholder: "- -",
     setValue: setHour,
     allowDelete: allowDelete,
-    moveNext: () => focusElementById("minuteInput"),
+    moveNext: () => focusElementByRef(minuteRef),
     range: hourRange,
     toggleAmPm: toggleAmPm
   }), /*#__PURE__*/_react.default.createElement("span", null, ":"), /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
+    inputRef: minuteRef,
     id: "react-time-input-picker__minuteInput",
     value: minute,
     placeholder: "- -",
     setValue: setMinutes,
     allowDelete: allowDelete,
-    moveNext: hour12Format && (() => focusElementById("amPm")),
-    movePrev: () => focusElementById("hourInput"),
+    moveNext: hour12Format && (() => focusElementByRef(amPmRef)),
+    movePrev: () => focusElementByRef(hourRef),
     range: {
       start: 0,
       end: 59
     }
   }), hour12Format && /*#__PURE__*/_react.default.createElement(_AmPmInputHelper.default, {
+    inputRef: amPmRef,
     amPm: amPm,
-    focusElementById: focusElementById,
+    focusMinuteInput: () => focusElementByRef(minuteRef),
     toggleAmPm: toggleAmPm,
     setAmPM: amPm => _setAmPM(amPm)
   })));

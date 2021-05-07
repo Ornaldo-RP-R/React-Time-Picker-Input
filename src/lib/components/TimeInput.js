@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import InputTimeHelper from "./InputTimeHelper";
 import AmPmInputHelper from "./AmPmInputHelper";
 import { doubleChar } from "./actions";
-import "./TimeInput.css";
+import "./TimeInput.css"
 
 function TimeInput(props) {
   const { hour12Format, value, onChange, allowDelete } = props;
@@ -21,9 +21,14 @@ function TimeInput(props) {
   const [hour, setHour] = useState(dateParts.hour);
   const [minute, setMinutes] = useState(dateParts.minute);
   const [amPm, setAmPM] = useState(dateParts.amPm);
+   const hourRef=useRef(null);
+  const minuteRef=useRef(null);
+  const amPmRef=useRef(null);
 
   const hourRange = hour12Format ? { start: 1, end: 12 } : { start: 0, end: 23 };
-  const focusElementById = (id) => document.getElementById("react-time-input-picker__" + id).focus();
+  const focusElementByRef = (ref) =>{
+    ref.current && ref.current.focus();
+  }
   const toggleAmPm = () => setAmPM(amPm === "AM" ? "PM" : "AM");
   useEffect(() => {
     if (hour !== "" && minute !== "") {
@@ -52,30 +57,33 @@ function TimeInput(props) {
     <div className="App">
       <div className="react-time-input-picker">
         <InputTimeHelper
+          inputRef={hourRef} 
           id="react-time-input-picker__hourInput"
           value={hour}
           placeholder="- -"
           setValue={setHour}
           allowDelete={allowDelete}
-          moveNext={() => focusElementById("minuteInput")}
+          moveNext={() => focusElementByRef(minuteRef)}
           range={hourRange}
           toggleAmPm={toggleAmPm}
         />
         <span>:</span>
         <InputTimeHelper
+          inputRef={minuteRef} 
           id="react-time-input-picker__minuteInput"
           value={minute}
           placeholder="- -"
           setValue={setMinutes}
           allowDelete={allowDelete}
-          moveNext={hour12Format && (() => focusElementById("amPm"))}
-          movePrev={() => focusElementById("hourInput")}
+          moveNext={hour12Format && (() =>focusElementByRef(amPmRef))}
+          movePrev={() => focusElementByRef(hourRef)}
           range={{ start: 0, end: 59 }}
         />
         {hour12Format && (
           <AmPmInputHelper
+            inputRef={amPmRef} 
             amPm={amPm}
-            focusElementById={focusElementById}
+            focusMinuteInput={() => focusElementByRef(minuteRef)}
             toggleAmPm={toggleAmPm}
             setAmPM={(amPm) => setAmPM(amPm)}
           />

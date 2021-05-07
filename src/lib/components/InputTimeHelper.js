@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { doubleChar } from "./actions";
 
-const InputTimeHelper = ({ range, value, setValue, moveNext, movePrev, allowDelete, toggleAmPm, ...otherProps }) => {
+const InputTimeHelper = (props) => {
+  const { range, value, setValue, moveNext, movePrev,inputRef, allowDelete, toggleAmPm, ...otherProps }=props;
   const [changedValue, setChangedValue] = useState(value);
   const [keyPressed, setKeyPressed] = useState("");
   const [firstFocus, setFirstFocus] = useState(true);
@@ -50,7 +51,7 @@ const InputTimeHelper = ({ range, value, setValue, moveNext, movePrev, allowDele
     }
   }, [changedValue]);
 
-  const onBackSpaceTap = (e) => e.key === "Backspace" && allowDelete && setSafeValue("");
+  const onBackSpaceTap = (e) => e.key === "Backspace" && allowDelete && setValue("");
   const onSideArrowTap = (e) => {
     e.key === "ArrowRight" && moveNext && moveNext();
     e.key === "ArrowLeft" && movePrev && movePrev();
@@ -88,6 +89,7 @@ const InputTimeHelper = ({ range, value, setValue, moveNext, movePrev, allowDele
             setFirstFocus(true);
             setChangeCount(0);
           }}
+          ref={inputRef}
           {...otherProps}
           value={value}
           onKeyDown={(e) => {
