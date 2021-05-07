@@ -15,7 +15,7 @@ import TimePicker from 'react-time-picker'
 
 ## Demo
 
-[See Demo](https://github.com/Ornaldo-RP-R/react-time-picker-test)
+[See Demo](https://ornaldo-rp-r.github.io/react-time-picker-test/)
 
 ## Usage
 
