@@ -8,6 +8,14 @@
   display: flex;
   margin: 10px;
 }
+.react-time-input-picker input::-webkit-outer-spin-button,
+.react-time-input-picker input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.react-time-input-picker input[type="number"] {
+  -moz-appearance: textfield;
+}
 .react-time-input-picker input {
   position: relative;
   margin: 0 5px;
