@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import InputTimeHelper from "./InputTimeHelper";
 import AmPmInputHelper from "./AmPmInputHelper";
 import { doubleChar } from "./actions";
+import "./TimeInput.css";
 
 function TimeInput(props) {
   const { hour12Format, value, onChange, allowDelete } = props;

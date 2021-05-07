@@ -1,4 +1,4 @@
-import TimeInput from "./lib/index"
+import TimeInput from "./src/lib/index"
 import React,{useState} from "react";
 
 function App() {
