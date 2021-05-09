@@ -6,7 +6,7 @@ No moment.js needed
 
 ## Installation
 
-npm install react-time-picker-input
+npm install react-time-picker-input  (<-- two spaces)
 yarn add react-time-picker-input
 
 ## Import
