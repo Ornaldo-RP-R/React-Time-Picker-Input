@@ -40,9 +40,9 @@ function TimeInput(props) {
     const minuteByProp = (value || "").toString().trim().substring(3, 5);
     const editHourByFormat = hour12Format ? hourByProp < 12 ? hourByProp : hourByProp - 12 : hourByProp;
     return {
-      hour: editHourByFormat,
+      hour: editHourByFormat === "00" && hour12Format ? "12" : editHourByFormat,
       minute: minuteByProp,
-      amPm: hourByProp < 12 ? "AM" : "PM"
+      amPm: editHourByFormat === "00" && hour12Format ? "AM" : hourByProp < 12 ? "AM" : "PM"
     };
   };
 
