@@ -38,7 +38,7 @@ function TimeInput(props) {
   const getPartsByDate = () => {
     const hourByProp = (value || "").toString().trim().substring(0, 2);
     const minuteByProp = (value || "").toString().trim().substring(3, 5);
-    const editHourByFormat = hour12Format ? hourByProp < 12 ? hourByProp : hourByProp - 12 : hourByProp;
+    const editHourByFormat = hour12Format ? hourByProp <= 12 ? hourByProp : hourByProp - 12 : hourByProp;
     return {
       hour: editHourByFormat === "00" && hour12Format ? "12" : editHourByFormat,
       minute: minuteByProp,
@@ -107,7 +107,7 @@ function TimeInput(props) {
     placeholder: "- -",
     setValue: setMinutes,
     allowDelete: allowDelete,
-    moveNext: hour12Format && (() => focusElementByRef(amPmRef)),
+    moveNext: hour12Format ? () => focusElementByRef(amPmRef) : () => focusElementByRef(hourRef),
     movePrev: () => focusElementByRef(hourRef),
     range: {
       start: 0,
