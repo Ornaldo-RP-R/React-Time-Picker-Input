@@ -11,7 +11,7 @@ yarn add react-time-picker-input
 
 ## Import
 
-import TimePicker from 'react-time-picker'
+import TimePicker from 'react-time-picker-input'
 
 ## Demo
 
