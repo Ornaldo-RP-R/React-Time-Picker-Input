@@ -8,14 +8,17 @@
   display: flex;
   margin: 10px;
 }
+
 .react-time-input-picker input::-webkit-outer-spin-button,
 .react-time-input-picker input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 .react-time-input-picker input[type="number"] {
   -moz-appearance: textfield;
 }
+
 .react-time-input-picker input {
   position: relative;
   margin: 0 5px;
@@ -54,4 +57,37 @@
 .react-time-input-picker input[type="text"] {
   min-width: unset;
   max-width: 30px;
+}
+
+.react-time-input-picker .input-time-mobile {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.react-time-input-picker .input-time-mobile span,
+.react-time-input-picker .input-time-mobile input {
+  width: 100%;
+  height: 100%;
+}
+
+.react-time-input-picker .input-time-mobile span::after {
+  content: "▾";
+  margin-left: 5px;
+}
+
+.react-time-input-picker .input-time-mobile span {
+  display: flex;
+  justify-content: space-between;
+}
+
+.react-time-input-picker .input-time-mobile input[type="time"] {
+  opacity: 0;
+  position: absolute;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }

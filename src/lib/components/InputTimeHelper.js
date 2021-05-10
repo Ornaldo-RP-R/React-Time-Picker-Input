@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { doubleChar } from "./actions";
 
 const InputTimeHelper = (props) => {
-  const { range, value, setValue, moveNext, movePrev,inputRef, allowDelete, toggleAmPm, ...otherProps }=props;
+  const { range, value, setValue, moveNext, movePrev, inputRef, allowDelete, toggleAmPm, ...otherProps } = props;
   const [changedValue, setChangedValue] = useState(value);
   const [keyPressed, setKeyPressed] = useState("");
   const [firstFocus, setFirstFocus] = useState(true);

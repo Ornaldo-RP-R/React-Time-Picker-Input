@@ -1,11 +1,13 @@
 import React, { useEffect, useState,useRef } from "react";
 import InputTimeHelper from "./InputTimeHelper";
 import AmPmInputHelper from "./AmPmInputHelper";
-import { doubleChar } from "./actions";
+import { doubleChar,isOnMobileDevice } from "./actions";
 import "./TimeInput.css"
 
 function TimeInput(props) {
   const { hour12Format, value, onChange, allowDelete } = props;
+  const [isMobile,setIsMobile]=useState(isOnMobileDevice());
+
   const getPartsByDate = () => {
     const hourByProp = (value || "").toString().trim().substring(0, 2);
     const minuteByProp = (value || "").toString().trim().substring(3, 5);
@@ -21,6 +23,7 @@ function TimeInput(props) {
   const [hour, setHour] = useState(dateParts.hour);
   const [minute, setMinutes] = useState(dateParts.minute);
   const [amPm, setAmPM] = useState(dateParts.amPm);
+  const [valueMobile,setValueMobile]=useState(value);
    const hourRef=useRef(null);
   const minuteRef=useRef(null);
   const amPmRef=useRef(null);
@@ -29,9 +32,11 @@ function TimeInput(props) {
   const focusElementByRef = (ref) =>{
     ref.current && ref.current.focus();
   }
+  const updateTouchDevice=()=>setIsMobile(isOnMobileDevice())
   const toggleAmPm = () => setAmPM(amPm === "AM" ? "PM" : "AM");
+
   useEffect(() => {
-    if (hour !== "" && minute !== "") {
+    if (hour !== "" && minute !== "" && !isMobile) {
       let hour24Format = !hour12Format && doubleChar(hour);
       let hour12Am = amPm === "AM" && hour === "12" && "00";
       const calculateHour = parseInt(hour) + (amPm === "PM" && hour !== "12" ? 12 : 0);
@@ -44,16 +49,28 @@ function TimeInput(props) {
   }, [hour, minute, amPm]);
 
   useEffect(() => {
-    const dateParts = getPartsByDate();
-    setHour(dateParts.hour);
-    setMinutes(dateParts.minute);
-    setAmPM(dateParts.amPm);
+    if(!isMobile){
+      const dateParts = getPartsByDate();
+      setHour(dateParts.hour);
+      setMinutes(dateParts.minute);
+      setAmPM(dateParts.amPm);
+    }
   }, [value]);
+
+  useEffect(()=>{
+    window.addEventListener("resize", updateTouchDevice);
+    return ()=>{
+      window.removeEventListener("resize", updateTouchDevice);
+    }
+  },[])
 
   return (
     <div className="App">
       <div className="react-time-input-picker">
-        <InputTimeHelper
+        {isMobile ?<div className="input-time-mobile">
+          <span>{valueMobile}</span>
+          <input type="time" value={valueMobile} onChange={(e)=>setValueMobile(e.target.value)}/></div>:<React.Fragment>
+            <InputTimeHelper
           inputRef={hourRef} 
           id="react-time-input-picker__hourInput"
           value={hour}
@@ -84,7 +101,8 @@ function TimeInput(props) {
             toggleAmPm={toggleAmPm}
             setAmPM={(amPm) => setAmPM(amPm)}
           />
-        )}
+        )}</React.Fragment>}
+      
       </div>
     </div>
   );

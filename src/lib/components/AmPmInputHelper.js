@@ -1,6 +1,7 @@
 import React from "react";
+
 const AmPmInputHelper = (props) => {
-  const { amPm, focusMinuteInput, toggleAmPm, setAmPM,inputRef, ...otherProps } = props;
+  const { amPm, focusMinuteInput, toggleAmPm, setAmPM, inputRef, ...otherProps } = props;
   return (
     <input
       id="react-time-input-picker__amPm"
