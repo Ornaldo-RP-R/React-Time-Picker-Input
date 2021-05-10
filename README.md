@@ -42,6 +42,12 @@ const [value, setValue] = useState('10:00');
 
 ## Custom styling
 
+### If Default styles not applied :
+
+#### Download and import on desired location :
+
+[default styles file]: (https://github.com/Ornaldo-RP-R/React-Time-Picker-Input/blob/main/src/lib/components/TimeInput.css)
+
 ### Edit Style for Desktop:
 
 #### Input wrapper
