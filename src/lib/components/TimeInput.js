@@ -66,7 +66,6 @@ function TimeInput(props) {
   },[])
 
   return (
-    <div className="App">
       <div className="react-time-input-picker">
         {isMobile ?<div className="input-time-mobile">
           <span>{valueMobile}</span>
@@ -106,7 +105,6 @@ function TimeInput(props) {
         )}</React.Fragment>}
       
       </div>
-    </div>
   );
 }
 
