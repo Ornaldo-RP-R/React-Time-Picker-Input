@@ -42,8 +42,9 @@ const [value, setValue] = useState('10:00');
 
 ## Custom styling
 
-edit Style for :
-input wrapper
+### Edit Style for Desktop:
+
+#### Input wrapper
 
 ```css
 .react-time-input-picker {
@@ -51,7 +52,7 @@ input wrapper
 }
 ```
 
-hour input :
+#### Hour input :
 
 ```css
 .react-time-input-picker #react-time-input-picker__hourInput {
@@ -59,7 +60,7 @@ hour input :
 }
 ```
 
-minute input :
+#### Minute input :
 
 ```css
 .react-time-input-picker input#react-time-input-picker__minuteInput {
@@ -67,7 +68,7 @@ minute input :
 }
 ```
 
-amPm input :
+#### AmPm input :
 
 ```css
 .react-time-input-picker input#react-time-input-picker__amPm {
@@ -75,7 +76,7 @@ amPm input :
 }
 ```
 
-focus style:
+#### Focus style:
 
 ```css
 .react-time-input-picker input:focus {
@@ -85,6 +86,32 @@ or
 .react-time-input-picker input(//inputSelector):focus
 {
   // css code here
+}
+```
+
+### #dit Styles on Mobile :
+
+#### Input wrapper
+
+```css
+.input-time-mobile {
+  // css here
+}
+```
+
+#### Text input
+
+```css
+.input-time-mobile span {
+  // css here
+}
+```
+
+#### Arrow input
+
+```css
+.input-time-mobile img {
+  // css here
 }
 ```
 

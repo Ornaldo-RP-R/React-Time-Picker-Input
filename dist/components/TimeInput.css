@@ -61,6 +61,8 @@
 
 .react-time-input-picker .input-time-mobile {
   position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -72,8 +74,10 @@
   height: 100%;
 }
 
-.react-time-input-picker .input-time-mobile span::after {
-  content: "▾";
+.react-time-input-picker .input-time-mobile img {
+  width: 20px;
+  object-fit: contain;
+  height: 20px;
   margin-left: 5px;
 }
 

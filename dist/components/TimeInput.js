@@ -19,6 +19,8 @@ var _AmPmInputHelper = _interopRequireDefault(require("./AmPmInputHelper"));
 
 var _actions = require("./actions");
 
+var _arrow = _interopRequireDefault(require("./arrow.svg"));
+
 require("./TimeInput.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -104,7 +106,9 @@ function TimeInput(props) {
     className: "react-time-input-picker"
   }, isMobile ? /*#__PURE__*/_react.default.createElement("div", {
     className: "input-time-mobile"
-  }, /*#__PURE__*/_react.default.createElement("span", null, valueMobile), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("span", null, valueMobile), /*#__PURE__*/_react.default.createElement("img", {
+    src: _arrow.default
+  }), /*#__PURE__*/_react.default.createElement("input", {
     type: "time",
     value: valueMobile,
     onChange: e => setValueMobile(e.target.value)
