@@ -105,22 +105,6 @@ or
 }
 ```
 
-#### Text input
-
-```css
-.input-time-mobile span {
-  // css here
-}
-```
-
-#### Arrow input
-
-```css
-.input-time-mobile img {
-  // css here
-}
-```
-
 ## Props
 
 | PropName     | Type     | default        | description                                                                                                                    |

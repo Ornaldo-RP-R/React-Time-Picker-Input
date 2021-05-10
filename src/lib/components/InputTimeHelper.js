@@ -93,6 +93,7 @@ const InputTimeHelper = (props) => {
           {...otherProps}
           value={value}
           onKeyDown={(e) => {
+            alert(e.key)
             setKeyPressed(e.key);
             onBackSpaceTap(e);
             onSideArrowTap(e);

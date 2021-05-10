@@ -1,6 +1,5 @@
 export const doubleChar = (value) => (value.length >= 2 ? value : "0" + value).slice(-2);
 export const isOnMobileDevice=()=>{
-    console.log(navigator.userAgent)
      const toMatch = [
         /Android/i,
         /webOS/i,

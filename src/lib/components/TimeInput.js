@@ -68,10 +68,8 @@ function TimeInput(props) {
   return (
       <div className="react-time-input-picker">
         {isMobile ?<div className="input-time-mobile">
-          <span>{valueMobile}</span>
-          <img src={Arrow}/>
           <input type="time" value={valueMobile} onChange={(e)=>setValueMobile(e.target.value)}/></div>:<React.Fragment>
-            <InputTimeHelper
+          <InputTimeHelper
           inputRef={hourRef} 
           id="react-time-input-picker__hourInput"
           value={hour}

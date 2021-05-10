@@ -101,8 +101,6 @@ function TimeInput(props) {
     };
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "App"
-  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "react-time-input-picker"
   }, isMobile ? /*#__PURE__*/_react.default.createElement("div", {
     className: "input-time-mobile"
@@ -141,7 +139,7 @@ function TimeInput(props) {
     focusMinuteInput: () => focusElementByRef(minuteRef),
     toggleAmPm: toggleAmPm,
     setAmPM: amPm => _setAmPM(amPm)
-  }))));
+  })));
 }
 
 var _default = TimeInput;
