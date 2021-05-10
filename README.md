@@ -89,7 +89,7 @@ or
 }
 ```
 
-### #dit Styles on Mobile :
+### Edit Styles on Mobile :
 
 #### Input wrapper
 
