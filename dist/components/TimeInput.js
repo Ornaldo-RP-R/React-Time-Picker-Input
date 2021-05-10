@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+require("core-js/modules/web.dom-collections.iterator.js");
+
 require("core-js/modules/es.string.trim.js");
 
 require("core-js/modules/es.regexp.to-string.js");
-
-require("core-js/modules/web.dom-collections.iterator.js");
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -34,6 +34,7 @@ function TimeInput(props) {
     onChange,
     allowDelete
   } = props;
+  const [isMobile, setIsMobile] = (0, _react.useState)((0, _actions.isOnMobileDevice)());
 
   const getPartsByDate = () => {
     const hourByProp = (value || "").toString().trim().substring(0, 2);
@@ -50,6 +51,7 @@ function TimeInput(props) {
   const [hour, setHour] = (0, _react.useState)(dateParts.hour);
   const [minute, setMinutes] = (0, _react.useState)(dateParts.minute);
   const [amPm, _setAmPM] = (0, _react.useState)(dateParts.amPm);
+  const [valueMobile, setValueMobile] = (0, _react.useState)(value);
   const hourRef = (0, _react.useRef)(null);
   const minuteRef = (0, _react.useRef)(null);
   const amPmRef = (0, _react.useRef)(null);
@@ -65,10 +67,12 @@ function TimeInput(props) {
     ref.current && ref.current.focus();
   };
 
+  const updateTouchDevice = () => setIsMobile((0, _actions.isOnMobileDevice)());
+
   const toggleAmPm = () => _setAmPM(amPm === "AM" ? "PM" : "AM");
 
   (0, _react.useEffect)(() => {
-    if (hour !== "" && minute !== "") {
+    if (hour !== "" && minute !== "" && !isMobile) {
       let hour24Format = !hour12Format && (0, _actions.doubleChar)(hour);
       let hour12Am = amPm === "AM" && hour === "12" && "00";
       const calculateHour = parseInt(hour) + (amPm === "PM" && hour !== "12" ? 12 : 0);
@@ -80,17 +84,31 @@ function TimeInput(props) {
     }
   }, [hour, minute, amPm]);
   (0, _react.useEffect)(() => {
-    const dateParts = getPartsByDate();
-    setHour(dateParts.hour);
-    setMinutes(dateParts.minute);
+    if (!isMobile) {
+      const dateParts = getPartsByDate();
+      setHour(dateParts.hour);
+      setMinutes(dateParts.minute);
 
-    _setAmPM(dateParts.amPm);
+      _setAmPM(dateParts.amPm);
+    }
   }, [value]);
+  (0, _react.useEffect)(() => {
+    window.addEventListener("resize", updateTouchDevice);
+    return () => {
+      window.removeEventListener("resize", updateTouchDevice);
+    };
+  }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "App"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "react-time-input-picker"
-  }, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
+  }, isMobile ? /*#__PURE__*/_react.default.createElement("div", {
+    className: "input-time-mobile"
+  }, /*#__PURE__*/_react.default.createElement("span", null, valueMobile), /*#__PURE__*/_react.default.createElement("input", {
+    type: "time",
+    value: valueMobile,
+    onChange: e => setValueMobile(e.target.value)
+  })) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
     inputRef: hourRef,
     id: "react-time-input-picker__hourInput",
     value: hour,
@@ -119,7 +137,7 @@ function TimeInput(props) {
     focusMinuteInput: () => focusElementByRef(minuteRef),
     toggleAmPm: toggleAmPm,
     setAmPM: amPm => _setAmPM(amPm)
-  })));
+  }))));
 }
 
 var _default = TimeInput;

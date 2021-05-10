@@ -2,6 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import InputTimeHelper from "./InputTimeHelper";
 import AmPmInputHelper from "./AmPmInputHelper";
 import { doubleChar,isOnMobileDevice } from "./actions";
+import Arrow from "./arrow.svg"
 import "./TimeInput.css"
 
 function TimeInput(props) {
@@ -69,6 +70,7 @@ function TimeInput(props) {
       <div className="react-time-input-picker">
         {isMobile ?<div className="input-time-mobile">
           <span>{valueMobile}</span>
+          <img src={Arrow}/>
           <input type="time" value={valueMobile} onChange={(e)=>setValueMobile(e.target.value)}/></div>:<React.Fragment>
             <InputTimeHelper
           inputRef={hourRef} 
