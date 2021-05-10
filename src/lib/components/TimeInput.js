@@ -2,7 +2,6 @@ import React, { useEffect, useState,useRef } from "react";
 import InputTimeHelper from "./InputTimeHelper";
 import AmPmInputHelper from "./AmPmInputHelper";
 import { doubleChar,isOnMobileDevice } from "./actions";
-import Arrow from "./arrow.svg"
 import "./TimeInput.css"
 
 function TimeInput(props) {
