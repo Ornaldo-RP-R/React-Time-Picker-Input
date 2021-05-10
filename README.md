@@ -46,7 +46,7 @@ const [value, setValue] = useState('10:00');
 
 #### Download and import on desired location :
 
-[default styles file]: (https://github.com/Ornaldo-RP-R/React-Time-Picker-Input/blob/main/src/lib/components/TimeInput.css)
+[Default Styles File](https://github.com/Ornaldo-RP-R/React-Time-Picker-Input/blob/main/src/lib/components/TimeInput.css)
 
 ### Edit Style for Desktop:
 
