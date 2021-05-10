@@ -19,8 +19,6 @@ var _AmPmInputHelper = _interopRequireDefault(require("./AmPmInputHelper"));
 
 var _actions = require("./actions");
 
-var _arrow = _interopRequireDefault(require("./arrow.svg"));
-
 require("./TimeInput.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
