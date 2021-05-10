@@ -104,9 +104,7 @@ function TimeInput(props) {
     className: "react-time-input-picker"
   }, isMobile ? /*#__PURE__*/_react.default.createElement("div", {
     className: "input-time-mobile"
-  }, /*#__PURE__*/_react.default.createElement("span", null, valueMobile), /*#__PURE__*/_react.default.createElement("img", {
-    src: _arrow.default
-  }), /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement("input", {
     type: "time",
     value: valueMobile,
     onChange: e => setValueMobile(e.target.value)
