@@ -14,7 +14,7 @@
     "ui",
     "react-time-picker-input"
   ],
-  "version": "1.4.8",
+  "version": "1.4.9",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -32,6 +32,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "core-js": "^3.12.1",
     "node-sass": "^5.0.0",
     "web-vitals": "^1.0.1"
   },
