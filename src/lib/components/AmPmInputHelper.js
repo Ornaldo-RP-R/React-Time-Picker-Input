@@ -1,7 +1,7 @@
 import React from "react";
 
 const AmPmInputHelper = (props) => {
-  const { amPm, focusMinuteInput, toggleAmPm, setAmPM, inputRef, ...otherProps } = props;
+  const { amPm, movePrev,moveNext, toggleAmPm, setAmPM, inputRef, ...otherProps } = props;
   return (
     <input
       id="react-time-input-picker__amPm"
@@ -12,16 +12,19 @@ const AmPmInputHelper = (props) => {
       readOnly
       onKeyDown={(e) => {
         if (e.key === "ArrowLeft") {
-          focusMinuteInput();
+          movePrev();
         }
         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
           toggleAmPm();
+          moveNext();
         }
         if (e.key.toLocaleLowerCase() === "p") {
           setAmPM("PM");
+          moveNext();
         }
         if (e.key.toLocaleLowerCase() === "a") {
           setAmPM("AM");
+          moveNext();
         }
       }}
     />
