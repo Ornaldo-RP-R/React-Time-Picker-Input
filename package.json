@@ -42,7 +42,6 @@
     "sass": "node-sass src/lib/components/styles/main.scss src/App.css -w",
     "prepatch": "npm run gitdeploy",
     "patch": "npm version patch",
-    "predeploy": "npm run patch",
     "deploy": "npm run gitdeploy",
     "pregitdeploy": "git add .",
     "gitdeploy": "git commit -m m",
