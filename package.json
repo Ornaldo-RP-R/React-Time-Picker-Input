@@ -14,7 +14,7 @@
     "ui",
     "react-time-picker-input"
   ],
-  "version": "1.5.9",
+  "version": "1.6.0",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -43,7 +43,7 @@
     "prebuild": "npm run gitdeploy",
     "predeploy": "npm run build",
     "deploy": "npm publish",
-    "pregitadd": "npm version patch",
+    "pregitadd": "npm version patch || true",
     "pregitdeploy": "npm run gitcommit",
     "gitadd": "git add .",
     "pregitcommit": "npm run gitadd",
