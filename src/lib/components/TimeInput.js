@@ -16,13 +16,21 @@ function TimeInput(props) {
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const amPmRef = useRef(null);
-  const wrapperRef = useRef(null);
 
   const hourRange = hour12Format ? { start: 1, end: 12 } : { start: 0, end: 23 };
+  
   const focusElementByRef = (ref) => {
     ref.current && ref.current.focus();
   };
+  
+  const blurElementByRef = (ref) => {
+    ref.current && ref.current.blur();
+  };
+
+  const focusMinute=() => focusElementByRef(minuteRef)
+  
   const updateTouchDevice = () => setIsMobile(isOnMobileDevice());
+ 
   const toggleAmPm = () => setAmPM(amPm === "AM" ? "PM" : "AM");
 
   useEffect(() => {
@@ -55,7 +63,7 @@ function TimeInput(props) {
   }, []);
 
   return (
-    <div className="react-time-input-picker" ref={wrapperRef}>
+    <div className="react-time-input-picker">
       {isMobile ? (
         <div className="input-time-mobile">
           <input type="time" value={valueMobile} onChange={(e) => setValueMobile(e.target.value)} />
@@ -69,7 +77,7 @@ function TimeInput(props) {
             placeholder="- -"
             setValue={setHour}
             allowDelete={allowDelete}
-            moveNext={() => focusElementByRef(minuteRef)}
+            moveNext={focusMinute}
             range={hourRange}
             toggleAmPm={toggleAmPm}
           />
@@ -81,7 +89,7 @@ function TimeInput(props) {
             placeholder="- -"
             setValue={setMinutes}
             allowDelete={allowDelete}
-            moveNext={hour12Format ? () => focusElementByRef(amPmRef) : () => focusElementByRef(wrapperRef)}
+            moveNext={hour12Format ? () => focusElementByRef(amPmRef) : () => blurElementByRef(minuteRef)}
             movePrev={() => focusElementByRef(hourRef)}
             range={{ start: 0, end: 59 }}
           />
@@ -89,8 +97,8 @@ function TimeInput(props) {
             <AmPmInputHelper
               inputRef={amPmRef}
               amPm={amPm}
-              movePrev={() => focusElementByRef(minuteRef)}
-              moveNext={()=>focusElementByRef(wrapperRef)}
+              movePrev={focusMinute}
+              moveNext={()=> blurElementByRef(amPmRef)}
               toggleAmPm={toggleAmPm}
               setAmPM={(amPm) => setAmPM(amPm)}
             />

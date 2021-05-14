@@ -33,7 +33,7 @@ function TimeInput(props) {
     allowDelete
   } = props;
   const [isMobile, setIsMobile] = (0, _react.useState)((0, _actions.isOnMobileDevice)());
-  const dateParts = getDatePartsByProps(value, hour12Format);
+  const dateParts = (0, _actions.getDatePartsByProps)(value, hour12Format);
   const [hour, setHour] = (0, _react.useState)(dateParts.hour);
   const [minute, setMinutes] = (0, _react.useState)(dateParts.minute);
   const [amPm, _setAmPM] = (0, _react.useState)(dateParts.amPm);
@@ -72,7 +72,7 @@ function TimeInput(props) {
   }, [hour, minute, amPm]);
   (0, _react.useEffect)(() => {
     if (!isMobile) {
-      const dateParts = getDatePartsByProps(value, hour12Format);
+      const dateParts = (0, _actions.getDatePartsByProps)(value, hour12Format);
       setHour(dateParts.hour);
       setMinutes(dateParts.minute);
 
