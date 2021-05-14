@@ -43,7 +43,7 @@
     "prebuild":"npm run gitdeploy",
     "predeploy": "npm run build",
     "deploy": "npm publish",
-    "patch": "npm version patch",
+    "pregitadd": "npm version patch",
     "pregitdeploy": "npm run gitcommit",
     "gitadd":"git add .",
     "pregitcommit":"npm run gitadd",
