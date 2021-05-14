@@ -40,7 +40,6 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "sass": "node-sass src/lib/components/styles/main.scss src/App.css -w",
-    "prepatch": "npm run gitdeploy",
     "patch": "npm version patch",
     "deploy": "npm run gitdeploy",
     "pregitdeploy": "git add .",
