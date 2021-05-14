@@ -38,20 +38,15 @@ const AmPmInputHelper = props => {
     onKeyDown: e => {
       if (e.key === "ArrowLeft") {
         movePrev();
-      }
+      } else if (e.key.toLocaleLowerCase() === "p" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key.toLocaleLowerCase() === "a") {
+        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+          toggleAmPm();
+        } else if (e.key.toLocaleLowerCase() === "p") {
+          setAmPM("PM");
+        } else if (e.key.toLocaleLowerCase() === "a") {
+          setAmPM("AM");
+        }
 
-      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-        toggleAmPm();
-        moveNext();
-      }
-
-      if (e.key.toLocaleLowerCase() === "p") {
-        setAmPM("PM");
-        moveNext();
-      }
-
-      if (e.key.toLocaleLowerCase() === "a") {
-        setAmPM("AM");
         moveNext();
       }
     }
