@@ -53,10 +53,10 @@
     "GitCommit": "git commit -m m || true",
     "preGitDeploy": "npm run GitCommit",
     "GitDeploy": "git push -u origin main || true",
-    "prebuild": "npm run GitDeploy",
-    "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files",
-    "predeploy": "npm run build",
-    "deploy": "npm publish",
+    "preBuild": "npm run GitDeploy",
+    "Build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files",
+    "preDeploy": "npm run Build",
+    "Deploy": "npm publish",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
