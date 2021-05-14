@@ -32,6 +32,10 @@
   outline: none;
 }
 
+.react-time-input-picker input::selection {
+  background: transparent;
+}
+
 .react-time-input-picker input::placeholder {
   opacity: 1;
   font-weight: 400;

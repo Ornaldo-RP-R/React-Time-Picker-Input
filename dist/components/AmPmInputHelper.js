@@ -20,12 +20,13 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 const AmPmInputHelper = props => {
   const {
     amPm,
-    focusMinuteInput,
+    movePrev,
+    moveNext,
     toggleAmPm,
     setAmPM,
     inputRef
   } = props,
-        otherProps = _objectWithoutProperties(props, ["amPm", "focusMinuteInput", "toggleAmPm", "setAmPM", "inputRef"]);
+        otherProps = _objectWithoutProperties(props, ["amPm", "movePrev", "moveNext", "toggleAmPm", "setAmPM", "inputRef"]);
 
   return /*#__PURE__*/_react.default.createElement("input", _extends({
     id: "react-time-input-picker__amPm",
@@ -36,19 +37,22 @@ const AmPmInputHelper = props => {
     readOnly: true,
     onKeyDown: e => {
       if (e.key === "ArrowLeft") {
-        focusMinuteInput();
+        movePrev();
       }
 
       if (e.key === "ArrowUp" || e.key === "ArrowDown") {
         toggleAmPm();
+        moveNext();
       }
 
       if (e.key.toLocaleLowerCase() === "p") {
         setAmPM("PM");
+        moveNext();
       }
 
       if (e.key.toLocaleLowerCase() === "a") {
         setAmPM("AM");
+        moveNext();
       }
     }
   }));

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import InputTimeHelper from "./InputTimeHelper";
 import AmPmInputHelper from "./AmPmInputHelper";
-import { doubleChar, isOnMobileDevice } from "./actions";
+import { doubleChar, isOnMobileDevice, getDatePartsByProps } from "./actions";
 import "./TimeInput.css";
 
 function TimeInput(props) {

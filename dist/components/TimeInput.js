@@ -7,8 +7,6 @@ exports.default = void 0;
 
 require("core-js/modules/web.dom-collections.iterator.js");
 
-require("core-js/modules/es.string.trim.js");
-
 require("core-js/modules/es.regexp.to-string.js");
 
 var _react = _interopRequireWildcard(require("react"));
@@ -35,19 +33,7 @@ function TimeInput(props) {
     allowDelete
   } = props;
   const [isMobile, setIsMobile] = (0, _react.useState)((0, _actions.isOnMobileDevice)());
-
-  const getPartsByDate = () => {
-    const hourByProp = (value || "").toString().trim().substring(0, 2);
-    const minuteByProp = (value || "").toString().trim().substring(3, 5);
-    const editHourByFormat = hour12Format ? hourByProp <= 12 ? hourByProp : hourByProp - 12 : hourByProp;
-    return {
-      hour: parseInt(editHourByFormat) === 0 && hour12Format ? "12" : (0, _actions.doubleChar)(editHourByFormat),
-      minute: (0, _actions.doubleChar)(minuteByProp),
-      amPm: parseInt(editHourByFormat) === 0 && hour12Format ? "AM" : hourByProp < 12 ? "AM" : "PM"
-    };
-  };
-
-  const dateParts = getPartsByDate();
+  const dateParts = getDatePartsByProps(value, hour12Format);
   const [hour, setHour] = (0, _react.useState)(dateParts.hour);
   const [minute, setMinutes] = (0, _react.useState)(dateParts.minute);
   const [amPm, _setAmPM] = (0, _react.useState)(dateParts.amPm);
@@ -55,6 +41,7 @@ function TimeInput(props) {
   const hourRef = (0, _react.useRef)(null);
   const minuteRef = (0, _react.useRef)(null);
   const amPmRef = (0, _react.useRef)(null);
+  const wrapperRef = (0, _react.useRef)(null);
   const hourRange = hour12Format ? {
     start: 1,
     end: 12
@@ -85,7 +72,7 @@ function TimeInput(props) {
   }, [hour, minute, amPm]);
   (0, _react.useEffect)(() => {
     if (!isMobile) {
-      const dateParts = getPartsByDate();
+      const dateParts = getDatePartsByProps(value, hour12Format);
       setHour(dateParts.hour);
       setMinutes(dateParts.minute);
 
@@ -99,7 +86,8 @@ function TimeInput(props) {
     };
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "react-time-input-picker"
+    className: "react-time-input-picker",
+    ref: wrapperRef
   }, isMobile ? /*#__PURE__*/_react.default.createElement("div", {
     className: "input-time-mobile"
   }, /*#__PURE__*/_react.default.createElement("input", {
@@ -123,7 +111,7 @@ function TimeInput(props) {
     placeholder: "- -",
     setValue: setMinutes,
     allowDelete: allowDelete,
-    moveNext: hour12Format ? () => focusElementByRef(amPmRef) : () => focusElementByRef(hourRef),
+    moveNext: hour12Format ? () => focusElementByRef(amPmRef) : () => focusElementByRef(wrapperRef),
     movePrev: () => focusElementByRef(hourRef),
     range: {
       start: 0,
@@ -132,7 +120,8 @@ function TimeInput(props) {
   }), hour12Format && /*#__PURE__*/_react.default.createElement(_AmPmInputHelper.default, {
     inputRef: amPmRef,
     amPm: amPm,
-    focusMinuteInput: () => focusElementByRef(minuteRef),
+    movePrev: () => focusElementByRef(minuteRef),
+    moveNext: () => focusElementByRef(wrapperRef),
     toggleAmPm: toggleAmPm,
     setAmPM: amPm => _setAmPM(amPm)
   })));
