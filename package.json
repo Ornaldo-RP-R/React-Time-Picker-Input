@@ -14,7 +14,7 @@
     "ui",
     "react-time-picker-input"
   ],
-  "version": "1.5.2",
+  "version": "1.5.3",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -41,9 +41,9 @@
     "test": "react-scripts test",
     "sass": "node-sass src/lib/components/styles/main.scss src/App.css -w",
     "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files",
-    "patch":"npm version patch",
-    "git_push":"git add .; git commit -m m; git push;",
-    "deploy":"npm run patch; npm run git_push; npm run build; npm publish",
+    "patch": "npm version patch",
+    "git_push": "git add .; git commit -m m; git push;",
+    "deploy": "npm run patch; npm run git_push; npm run build; npm publish",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
