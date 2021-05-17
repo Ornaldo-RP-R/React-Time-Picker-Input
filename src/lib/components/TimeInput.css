@@ -44,6 +44,17 @@
 
 .inputWrapper {
   position: relative;
+  height: 100%;
+  display: flex;
+}
+
+.inputWrapper:nth-child(1)::after {
+  content: ":";
+  display: flex;
+  align-items: center;
+  font-size: inherit;
+  margin-bottom: 1px;
+  font-weight: inherit;
 }
 
 .react-time-input-picker input:focus {

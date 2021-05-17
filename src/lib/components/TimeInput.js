@@ -81,7 +81,6 @@ function TimeInput(props) {
             range={hourRange}
             toggleAmPm={toggleAmPm}
           />
-          <span>:</span>
           <InputTimeHelper
             inputRef={minuteRef}
             id="react-time-input-picker__minuteInput"
