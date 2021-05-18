@@ -108,7 +108,7 @@ function TimeInput(props) {
     moveNext: focusMinute,
     range: hourRange,
     toggleAmPm: toggleAmPm
-  }), /*#__PURE__*/_react.default.createElement("span", null, ":"), /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
+  }), /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
     inputRef: minuteRef,
     id: "react-time-input-picker__minuteInput",
     value: minute,
