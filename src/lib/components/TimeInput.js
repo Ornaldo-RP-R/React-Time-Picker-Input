@@ -93,14 +93,16 @@ function TimeInput(props) {
             range={{ start: 0, end: 59 }}
           />
           {hour12Format && (
-            <AmPmInputHelper
-              inputRef={amPmRef}
-              amPm={amPm}
-              movePrev={focusMinute}
-              moveNext={()=> blurElementByRef(amPmRef)}
-              toggleAmPm={toggleAmPm}
-              setAmPM={(amPm) => setAmPM(amPm)}
-            />
+             <div className="inputWrapper">
+              <AmPmInputHelper
+                inputRef={amPmRef}
+                amPm={amPm}
+                movePrev={focusMinute}
+                moveNext={()=> blurElementByRef(amPmRef)}
+                toggleAmPm={toggleAmPm}
+                setAmPM={(amPm) => setAmPM(amPm)}
+              />
+            </div>
           )}
         </React.Fragment>
       )}
