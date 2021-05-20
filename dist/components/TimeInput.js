@@ -91,6 +91,8 @@ function TimeInput(props) {
     };
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
+    className: "react-time-input-picker-wrapper"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "react-time-input-picker"
   }, isMobile ? /*#__PURE__*/_react.default.createElement("div", {
     className: "input-time-mobile"
@@ -130,7 +132,7 @@ function TimeInput(props) {
     moveNext: () => blurElementByRef(amPmRef),
     toggleAmPm: toggleAmPm,
     setAmPM: amPm => _setAmPM(amPm)
-  }))));
+  })))));
 }
 
 var _default = TimeInput;
