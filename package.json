@@ -14,7 +14,7 @@
     "ui",
     "react-time-picker-input"
   ],
-  "version": "1.6.15",
+  "version": "1.6.16",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
