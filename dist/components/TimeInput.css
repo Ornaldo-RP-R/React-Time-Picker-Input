@@ -3,11 +3,15 @@
   width: max-content;
   border-bottom: 1px solid #dadada;
   border-radius: 2px;
-  padding: 5px 10px;
+  padding: 0;
   font-size: 16px;
   font-weight: 400;
   display: flex;
-  margin: 10px;
+  margin: 0;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
 }
 
 .react-time-input-picker input::-webkit-outer-spin-button,
@@ -22,14 +26,18 @@
 
 .react-time-input-picker input {
   position: relative;
-  margin: 0 5px;
-  padding: 5px;
+  margin: 0 2px;
+  padding: 0;
   border-radius: 2px;
   width: max-content;
   min-width: 30px;
   text-align: center;
   border: none;
   outline: none;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
 }
 
 .react-time-input-picker input::selection {
@@ -44,6 +52,7 @@
 
 .inputWrapper {
   position: relative;
+  align-items: center;
   height: 100%;
   display: flex;
 }
@@ -53,8 +62,12 @@
   display: flex;
   align-items: center;
   font-size: inherit;
-  margin-bottom: 1px;
   font-weight: inherit;
+  margin-bottom: 0;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  top: -1px;
 }
 
 .react-time-input-picker input:focus {
@@ -73,7 +86,7 @@
 
 .react-time-input-picker input[type="text"] {
   min-width: unset;
-  max-width: 30px;
+  height: 100%;
 }
 
 .react-time-input-picker .input-time-mobile input[type="time"] {

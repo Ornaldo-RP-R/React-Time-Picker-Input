@@ -30,7 +30,7 @@
   padding: 0;
   border-radius: 2px;
   width: max-content;
-  min-width: 30px;
+  min-width: 28px;
   text-align: center;
   border: none;
   outline: none;
@@ -54,7 +54,12 @@
   position: relative;
   align-items: center;
   height: 100%;
+  max-width: 40px;
   display: flex;
+}
+
+.inputWrapper:nth-child(2) {
+  max-width: 35px;
 }
 
 .inputWrapper:nth-child(1)::after {
@@ -86,9 +91,15 @@
 
 .react-time-input-picker input[type="text"] {
   min-width: unset;
+  max-width: 35px;
   height: 100%;
 }
 
 .react-time-input-picker .input-time-mobile input[type="time"] {
   background: transparent;
+}
+.react-time-input-picker-wrapper {
+  min-height: 37px;
+  height: max-content;
+  padding: 4px 0;
 }

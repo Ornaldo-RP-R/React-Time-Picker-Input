@@ -121,14 +121,16 @@ function TimeInput(props) {
       start: 0,
       end: 59
     }
-  }), hour12Format && /*#__PURE__*/_react.default.createElement(_AmPmInputHelper.default, {
+  }), hour12Format && /*#__PURE__*/_react.default.createElement("div", {
+    className: "inputWrapper"
+  }, /*#__PURE__*/_react.default.createElement(_AmPmInputHelper.default, {
     inputRef: amPmRef,
     amPm: amPm,
     movePrev: focusMinute,
     moveNext: () => blurElementByRef(amPmRef),
     toggleAmPm: toggleAmPm,
     setAmPM: amPm => _setAmPM(amPm)
-  })));
+  }))));
 }
 
 var _default = TimeInput;

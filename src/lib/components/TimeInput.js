@@ -63,49 +63,51 @@ function TimeInput(props) {
   }, []);
 
   return (
-    <div className="react-time-input-picker">
-      {isMobile ? (
-        <div className="input-time-mobile">
-          <input type="time" value={valueMobile} onChange={(e) => setValueMobile(e.target.value)} />
-        </div>
-      ) : (
-        <React.Fragment>
-          <InputTimeHelper
-            inputRef={hourRef}
-            id="react-time-input-picker__hourInput"
-            value={hour}
-            placeholder="- -"
-            setValue={setHour}
-            allowDelete={allowDelete}
-            moveNext={focusMinute}
-            range={hourRange}
-            toggleAmPm={toggleAmPm}
-          />
-          <InputTimeHelper
-            inputRef={minuteRef}
-            id="react-time-input-picker__minuteInput"
-            value={minute}
-            placeholder="- -"
-            setValue={setMinutes}
-            allowDelete={allowDelete}
-            moveNext={hour12Format ? () => focusElementByRef(amPmRef) : () => blurElementByRef(minuteRef)}
-            movePrev={() => focusElementByRef(hourRef)}
-            range={{ start: 0, end: 59 }}
-          />
-          {hour12Format && (
-             <div className="inputWrapper">
-              <AmPmInputHelper
-                inputRef={amPmRef}
-                amPm={amPm}
-                movePrev={focusMinute}
-                moveNext={()=> blurElementByRef(amPmRef)}
-                toggleAmPm={toggleAmPm}
-                setAmPM={(amPm) => setAmPM(amPm)}
-              />
+    <div className="react-time-input-picker-wrapper">
+      <div className="react-time-input-picker">
+          {isMobile ? (
+            <div className="input-time-mobile">
+              <input type="time" value={valueMobile} onChange={(e) => setValueMobile(e.target.value)} />
             </div>
+          ) : (
+            <React.Fragment>
+              <InputTimeHelper
+                inputRef={hourRef}
+                id="react-time-input-picker__hourInput"
+                value={hour}
+                placeholder="- -"
+                setValue={setHour}
+                allowDelete={allowDelete}
+                moveNext={focusMinute}
+                range={hourRange}
+                toggleAmPm={toggleAmPm}
+              />
+              <InputTimeHelper
+                inputRef={minuteRef}
+                id="react-time-input-picker__minuteInput"
+                value={minute}
+                placeholder="- -"
+                setValue={setMinutes}
+                allowDelete={allowDelete}
+                moveNext={hour12Format ? () => focusElementByRef(amPmRef) : () => blurElementByRef(minuteRef)}
+                movePrev={() => focusElementByRef(hourRef)}
+                range={{ start: 0, end: 59 }}
+              />
+              {hour12Format && (
+                <div className="inputWrapper">
+                  <AmPmInputHelper
+                    inputRef={amPmRef}
+                    amPm={amPm}
+                    movePrev={focusMinute}
+                    moveNext={()=> blurElementByRef(amPmRef)}
+                    toggleAmPm={toggleAmPm}
+                    setAmPM={(amPm) => setAmPM(amPm)}
+                  />
+                </div>
+              )}
+            </React.Fragment>
           )}
-        </React.Fragment>
-      )}
+        </div>
     </div>
   );
 }
