@@ -136,6 +136,8 @@ const InputTimeHelper = props => {
   }, otherProps, {
     value: value,
     onKeyDown: e => {
+      e.preventDefault();
+      e.stopPropagation();
       setKeyPressed(e.key);
       onBackSpaceTap(e);
       onSideArrowTap(e);

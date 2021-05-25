@@ -36,6 +36,9 @@ const AmPmInputHelper = props => {
     ref: inputRef,
     readOnly: true,
     onKeyDown: e => {
+      e.preventDefault();
+      e.stopPropagation();
+
       if (e.key === "ArrowLeft") {
         movePrev();
       } else if (e.key.toLocaleLowerCase() === "p" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key.toLocaleLowerCase() === "a") {
