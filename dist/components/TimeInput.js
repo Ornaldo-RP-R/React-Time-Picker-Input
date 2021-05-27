@@ -102,7 +102,6 @@ function TimeInput(props) {
     onChange: e => setValueMobile(e.target.value)
   })) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
     inputRef: hourRef,
-    id: "react-time-input-picker__hourInput",
     value: hour,
     placeholder: "- -",
     setValue: setHour,
@@ -112,7 +111,6 @@ function TimeInput(props) {
     toggleAmPm: toggleAmPm
   }), /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
     inputRef: minuteRef,
-    id: "react-time-input-picker__minuteInput",
     value: minute,
     placeholder: "- -",
     setValue: setMinutes,

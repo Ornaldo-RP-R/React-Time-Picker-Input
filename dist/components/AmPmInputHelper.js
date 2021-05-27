@@ -29,7 +29,6 @@ const AmPmInputHelper = props => {
         otherProps = _objectWithoutProperties(props, ["amPm", "movePrev", "moveNext", "toggleAmPm", "setAmPM", "inputRef"]);
 
   return /*#__PURE__*/_react.default.createElement("input", _extends({
-    id: "react-time-input-picker__amPm",
     type: "text"
   }, otherProps, {
     value: amPm,
