@@ -4,7 +4,6 @@ const AmPmInputHelper = (props) => {
   const { amPm, movePrev,moveNext, toggleAmPm, setAmPM, inputRef, ...otherProps } = props;
   return (
     <input
-      id="react-time-input-picker__amPm"
       type="text"
       {...otherProps}
       value={amPm}

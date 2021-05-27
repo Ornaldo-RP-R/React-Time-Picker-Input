@@ -73,7 +73,6 @@ function TimeInput(props) {
             <React.Fragment>
               <InputTimeHelper
                 inputRef={hourRef}
-                id="react-time-input-picker__hourInput"
                 value={hour}
                 placeholder="- -"
                 setValue={setHour}
@@ -84,7 +83,6 @@ function TimeInput(props) {
               />
               <InputTimeHelper
                 inputRef={minuteRef}
-                id="react-time-input-picker__minuteInput"
                 value={minute}
                 placeholder="- -"
                 setValue={setMinutes}
