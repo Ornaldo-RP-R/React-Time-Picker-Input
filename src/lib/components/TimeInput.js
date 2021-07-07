@@ -67,7 +67,10 @@ function TimeInput(props) {
       <div className="react-time-input-picker">
           {isMobile ? (
             <div className="input-time-mobile">
-              <input type="time" value={valueMobile} onChange={(e) => setValueMobile(e.target.value)} />
+              <input type="time" value={valueMobile} onChange={(e) => {
+                setValueMobile(e.target.value)
+                onChange(e.target.value)
+                }} />
             </div>
           ) : (
             <React.Fragment>
