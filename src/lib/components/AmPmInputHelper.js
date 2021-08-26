@@ -36,10 +36,11 @@ const AmPmInputHelper = (props) => {
               toggleAmPm();
             } else if (e.key.toLocaleLowerCase() === "p") {
               setValue("PM");
+              moveNext();
             } else if (e.key.toLocaleLowerCase() === "a") {
               setValue("AM");
+              moveNext();
             }
-            moveNext();
           }
         }}
       />
