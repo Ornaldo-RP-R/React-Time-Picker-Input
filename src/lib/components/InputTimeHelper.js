@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
+import UnitDropdown from "./UnitDropdown";
 import { doubleChar } from "./actions";
 
 const InputTimeHelper = (props) => {
-  const { range, value, setValue, moveNext, movePrev, inputRef, allowDelete, toggleAmPm, ...otherProps } = props;
+  const { range, value,disabled,shouldDisplayDropdown, setValue, moveNext, movePrev, inputRef, allowDelete, toggleAmPm, className, ...otherProps } =
+    props;
   const [changedValue, setChangedValue] = useState(value);
   const [keyPressed, setKeyPressed] = useState("");
   const [firstFocus, setFirstFocus] = useState(true);
   const [changeCount, setChangeCount] = useState(0);
+  const [inputFocused, setInputFocused] = useState(false);
 
   const cleanNumber = (number) => (!isNaN(number) ? number : "").toString().replace("0", "");
   const setSafeValue = (value) => {
@@ -85,6 +88,7 @@ const InputTimeHelper = (props) => {
     <React.Fragment>
       <div className="inputWrapper">
         <input
+          disabled={disabled}
           onFocus={() => {
             setFirstFocus(true);
             setChangeCount(0);
@@ -92,6 +96,14 @@ const InputTimeHelper = (props) => {
           ref={inputRef}
           {...otherProps}
           value={value}
+          onFocusCapture={() => {
+            setInputFocused(true);
+          }}
+          onBlur={(e) => {
+            setTimeout(() => {
+              setInputFocused(false);
+            }, 50);
+          }}
           onKeyDown={(e) => {
             setKeyPressed(e.key);
             onBackSpaceTap(e);
@@ -103,6 +115,11 @@ const InputTimeHelper = (props) => {
           type="number"
           min={range.start}
           max={range.end}
+        />
+        <UnitDropdown
+          shouldDisplay={shouldDisplayDropdown}
+          data={new Array(range.end + 1 - range.start).fill("")}
+          {...{ range, moveNext, setValue: setSafeValue, inputFocused, setInputFocused, value }}
         />
       </div>
     </React.Fragment>
