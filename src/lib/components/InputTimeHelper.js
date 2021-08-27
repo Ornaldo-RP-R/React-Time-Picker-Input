@@ -105,6 +105,9 @@ const InputTimeHelper = (props) => {
             }, 50);
           }}
           onKeyDown={(e) => {
+             if((e.key==="Enter" || e.key==="Escape") && inputFocused && shouldDisplayDropdown){
+              setInputFocused(false);
+            }
             setKeyPressed(e.key);
             onBackSpaceTap(e);
             onSideArrowTap(e);

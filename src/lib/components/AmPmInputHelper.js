@@ -22,6 +22,9 @@ const AmPmInputHelper = (props) => {
         ref={inputRef}
         readOnly
         onKeyDown={(e) => {
+          if((e.key==="Enter" || e.key==="Escape") && inputFocused && shouldDisplayDropdown){
+            setInputFocused(false);
+          }
           e.preventDefault();
           e.stopPropagation();
           if (e.key === "ArrowLeft") {
