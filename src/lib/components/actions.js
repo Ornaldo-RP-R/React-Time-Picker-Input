@@ -26,3 +26,43 @@ export const getDatePartsByProps = (stringTimeValue,hour12Format) => {
         amPm: parseInt(editHourByFormat) === 0 && hour12Format ? "AM" : hourByProp < 12 ? "AM" : "PM",
     };
 };
+
+export const onEscapeOrEnterTap=(e,props)=>{
+  const {inputFocused,shouldDisplayDropdown,movePrev,setInputFocused,inputRef,moveNext}=props;
+  if(e.key==="Escape" && inputFocused && shouldDisplayDropdown){
+    setInputFocused(false);
+    if(movePrev){
+      movePrev()
+    }else{
+      inputRef.current.blur();
+    }
+  }
+  if(e.key==="Enter" && inputFocused && shouldDisplayDropdown){
+    setInputFocused(false);
+    if(moveNext){
+      moveNext()
+    }else{
+      inputRef.current.blur();
+    }
+  }
+}
+
+export const onSideArrowTap = (e,props) => {
+  const {moveNext,movePrev}=props;
+  e.key === "ArrowRight" && moveNext && moveNext();
+  e.key === "ArrowLeft" && movePrev && movePrev();
+};
+
+export const getSameInputProps=(props)=>{
+  const {setInputFocused,disabled,inputRef}=props;
+  return {
+     onFocusCapture:() => setInputFocused(true),
+        disabled,
+        onBlurCapture:(e) => {
+          setTimeout(() => {
+            setInputFocused(false);
+          }, 50);
+        },
+        ref:inputRef
+  }
+}

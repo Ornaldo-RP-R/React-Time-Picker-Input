@@ -1,35 +1,25 @@
 import React, { useState } from "react";
 import UnitDropdown from "./UnitDropdown";
+import {onEscapeOrEnterTap,onSideArrowTap,getSameInputProps} from "./actions"
 
 const AmPmInputHelper = (props) => {
   const [inputFocused, setInputFocused] = useState(false);
   const { amPm, movePrev,shouldDisplayDropdown,disabled, moveNext, toggleAmPm, setValue, inputRef, ...otherProps } = props;
+  const propsAndState={...props,inputFocused,setInputFocused}
   return (
     <React.Fragment>
       <input
-        onFocusCapture={() => {
-          setInputFocused(true);
-        }}
-        disabled={disabled}
-        onBlurCapture={(e) => {
-          setTimeout(() => {
-            setInputFocused(false);
-          }, 50);
-        }}
+        {...getSameInputProps(propsAndState)}
+        value={amPm}
         type="text"
         {...otherProps}
-        value={amPm}
-        ref={inputRef}
         readOnly
         onKeyDown={(e) => {
-          if((e.key==="Enter" || e.key==="Escape") && inputFocused && shouldDisplayDropdown){
-            setInputFocused(false);
-          }
           e.preventDefault();
           e.stopPropagation();
-          if (e.key === "ArrowLeft") {
-            movePrev();
-          } else if (
+          onEscapeOrEnterTap(e,propsAndState);
+          onSideArrowTap(e,propsAndState);
+          if (
             e.key.toLocaleLowerCase() === "p" ||
             e.key === "ArrowUp" ||
             e.key === "ArrowDown" ||

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UnitDropdown from "./UnitDropdown";
-import { doubleChar } from "./actions";
+import { doubleChar,onEscapeOrEnterTap,onSideArrowTap,getSameInputProps } from "./actions";
 
 const InputTimeHelper = (props) => {
   const { range, value,disabled,shouldDisplayDropdown, setValue, moveNext, movePrev, inputRef, allowDelete, toggleAmPm, className, ...otherProps } =
@@ -10,6 +10,7 @@ const InputTimeHelper = (props) => {
   const [firstFocus, setFirstFocus] = useState(true);
   const [changeCount, setChangeCount] = useState(0);
   const [inputFocused, setInputFocused] = useState(false);
+  const propsAndState={...props,inputFocused,setInputFocused}
 
   const cleanNumber = (number) => (!isNaN(number) ? number : "").toString().replace("0", "");
   const setSafeValue = (value) => {
@@ -55,10 +56,7 @@ const InputTimeHelper = (props) => {
   }, [changedValue]);
 
   const onBackSpaceTap = (e) => e.key === "Backspace" && allowDelete && setValue("");
-  const onSideArrowTap = (e) => {
-    e.key === "ArrowRight" && moveNext && moveNext();
-    e.key === "ArrowLeft" && movePrev && movePrev();
-  };
+
   const onArrowDownTap = (e) => {
     if (e.key === "ArrowDown") {
       if (parseInt(value.toString()) === range.start) {
@@ -88,29 +86,18 @@ const InputTimeHelper = (props) => {
     <React.Fragment>
       <div className="inputWrapper">
         <input
-          disabled={disabled}
+          {...getSameInputProps(propsAndState)}
           onFocus={() => {
             setFirstFocus(true);
             setChangeCount(0);
           }}
-          ref={inputRef}
           {...otherProps}
           value={value}
-          onFocusCapture={() => {
-            setInputFocused(true);
-          }}
-          onBlur={(e) => {
-            setTimeout(() => {
-              setInputFocused(false);
-            }, 50);
-          }}
           onKeyDown={(e) => {
-             if((e.key==="Enter" || e.key==="Escape") && inputFocused && shouldDisplayDropdown){
-              setInputFocused(false);
-            }
+            onEscapeOrEnterTap(e,propsAndState)
+            onSideArrowTap(e,propsAndState);
             setKeyPressed(e.key);
             onBackSpaceTap(e);
-            onSideArrowTap(e);
             onArrowDownTap(e);
             onArrowUpTap(e);
           }}

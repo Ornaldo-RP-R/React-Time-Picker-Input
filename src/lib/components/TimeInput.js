@@ -42,7 +42,6 @@ function TimeInput(props) {
       let hour24 = dateString24.substring(0, 2);
       let hour12 = doubleChar(parseInt(hour24) < 12 ? hour24 : parseInt(hour24) - 12);
       let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
-      console.log(dateString24)
       onChange && onChange(dateString24);
     }
   }, [hour, minute, amPm]);
