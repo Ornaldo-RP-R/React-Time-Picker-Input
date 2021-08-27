@@ -126,8 +126,8 @@
   border-radius: 5px;
   height: 200px;
   overflow: auto;
-  min-width: 160%;
-  width: 160%;
+  min-width: 140%;
+  width: 140%;
   border: 1px solid #eeedee;
   box-shadow: 0 0 6px 0.2px #a0a0a0;
   display: flex;

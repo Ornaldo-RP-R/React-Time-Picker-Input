@@ -66,11 +66,11 @@ const AmPmInputHelper = props => {
           toggleAmPm();
         } else if (e.key.toLocaleLowerCase() === "p") {
           setValue("PM");
+          moveNext();
         } else if (e.key.toLocaleLowerCase() === "a") {
           setValue("AM");
+          moveNext();
         }
-
-        moveNext();
       }
     }
   })), /*#__PURE__*/_react.default.createElement(_UnitDropdown.default, {
