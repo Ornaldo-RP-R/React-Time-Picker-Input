@@ -138,9 +138,9 @@
 .inputWrapper__dropdown.amPm {
   width: 110%;
   min-width: 110%;
-  bottom: -80px;
+  bottom: -81px;
   overflow-y: hidden;
-  height: 75px;
+  height: 76px;
 }
 
 .inputWrapper__dropdown span {
