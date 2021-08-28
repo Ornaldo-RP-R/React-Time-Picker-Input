@@ -11,6 +11,10 @@ require("core-js/modules/es.string.replace.js");
 
 require("core-js/modules/es.array.reduce.js");
 
+require("core-js/modules/es.string.includes.js");
+
+require("core-js/modules/es.string.split.js");
+
 var _react = _interopRequireWildcard(require("react"));
 
 var _reactCssTransitionReplace = _interopRequireDefault(require("react-css-transition-replace"));
@@ -26,24 +30,41 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 const UnitDropdown = props => {
   const {
     data,
-    inputFocused,
+    dropdownVisibility,
+    manuallyDisplayDropdown,
     shouldDisplay,
-    setInputFocused,
+    hour12Format,
+    setDropdownVisibility,
     type,
     range,
     moveNext,
     setValue,
     value,
-    className
+    className,
+    fullTimeDropdownVisibility
   } = props;
+  const dropdownRef = (0, _react.useRef)(null);
+
+  const hideDropdown = () => {
+    setDropdownVisibility(false);
+  };
+
+  (0, _react.useEffect)(() => {
+    window.addEventListener("click", hideDropdown);
+    document.querySelector("body").addEventListener("click", hideDropdown);
+    return () => {
+      window.removeEventListener("click", hideDropdown);
+      document.querySelector("body").removeEventListener("click", hideDropdown);
+    };
+  }, []);
 
   const getStyleWithoutPx = (element, styleProp) => {
     return parseInt((element.currentStyle || window.getComputedStyle(element))[styleProp].replace("px", ""));
   };
 
-  const scrollToActiveUnit = (currentUnit, index) => {
+  const scrollToActiveUnit = (currentUnit, index, ref) => {
     let activeUnit = document.querySelector("[data-key=\"".concat(currentUnit, "\"]"));
-    let scrollContainer = document.querySelector(".inputWrapper__dropdown");
+    let scrollContainer = ref.current;
 
     if (scrollContainer && activeUnit) {
       const additionalHeightProp = ["borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom", "marginBottom", "marginTop"];
@@ -53,7 +74,7 @@ const UnitDropdown = props => {
       const scrollContainerHeight = scrollContainer.getBoundingClientRect().height + scrollerAdditionalHeight;
       scrollContainer.scrollTo({
         top: activeUnitHeight * index - scrollContainerHeight / 2,
-        behavior: 'smooth'
+        behavior: "smooth"
       });
     }
   };
@@ -62,15 +83,29 @@ const UnitDropdown = props => {
     transitionName: "cross-fade",
     transitionEnterTimeout: 150,
     transitionLeaveTimeout: 150
-  }, inputFocused && shouldDisplay && /*#__PURE__*/_react.default.createElement("div", {
+  }, dropdownVisibility && shouldDisplay && /*#__PURE__*/_react.default.createElement("div", {
+    ref: dropdownRef,
     className: "inputWrapper__dropdown ".concat(className || "")
-  }, data.map((unitType, index) => {
-    const currentUnit = type !== "amPm" ? (0, _actions.doubleChar)(range.start + index) : unitType;
+  }, data.map((unit, index) => {
+    const unitLabel = type === "notRange" ? unit : (0, _actions.doubleChar)(range.start + index);
+    let currentUnit = unitLabel;
+
+    if (fullTimeDropdownVisibility) {
+      currentUnit = unitLabel.replace(/ /g, "");
+      const amPm = currentUnit.toLowerCase().includes("pm") ? "PM" : "AM";
+      const hour = parseInt(currentUnit.split(":")[0]);
+      const dateParts = {
+        hour: amPm === "AM" && hour === 12 ? "00" : hour,
+        minute: currentUnit.split(":")[1].replace("AM", "").replace("PM", ""),
+        amPm
+      };
+      currentUnit = (0, _actions.getTimeString)(dateParts.hour, dateParts.minute, dateParts.amPm, hour12Format);
+    }
 
     if (currentUnit === value) {
-      scrollToActiveUnit(currentUnit, index + 1);
+      scrollToActiveUnit(currentUnit, index + 1, dropdownRef);
       setTimeout(() => {
-        scrollToActiveUnit(currentUnit, index + 1);
+        scrollToActiveUnit(currentUnit, index + 1, dropdownRef);
       }, 250);
     }
 
@@ -81,11 +116,11 @@ const UnitDropdown = props => {
         e.stopPropagation();
         e.preventDefault();
         setValue(currentUnit);
-        moveNext && moveNext();
-        setInputFocused(false);
+        !manuallyDisplayDropdown && moveNext && moveNext();
+        setDropdownVisibility(false);
       },
       className: currentUnit === value ? "is-active" : ""
-    }, currentUnit);
+    }, /*#__PURE__*/_react.default.createElement("div", null, unitLabel.replace("AM", "").replace("PM", "")), unitLabel.toLowerCase().includes("am") && /*#__PURE__*/_react.default.createElement("div", null, "AM"), unitLabel.toLowerCase().includes("pm") && /*#__PURE__*/_react.default.createElement("div", null, "PM"));
   })));
 };
 

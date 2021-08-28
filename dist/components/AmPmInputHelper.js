@@ -13,6 +13,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _UnitDropdown = _interopRequireDefault(require("./UnitDropdown"));
 
+var _ArrowDown = _interopRequireDefault(require("./ArrowDown"));
+
 var _actions = require("./actions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -38,15 +40,23 @@ const AmPmInputHelper = props => {
 
   const {
     amPm,
-    movePrev,
-    shouldDisplayDropdown,
-    disabled,
+    eachInputDropdown,
     moveNext,
     toggleAmPm,
+    manuallyDisplayDropdown,
     setValue,
-    inputRef
+    fullTimeDropdown,
+    inputRef,
+    movePrev
   } = props,
-        otherProps = _objectWithoutProperties(props, ["amPm", "movePrev", "shouldDisplayDropdown", "disabled", "moveNext", "toggleAmPm", "setValue", "inputRef"]);
+        otherProps = _objectWithoutProperties(props, ["amPm", "eachInputDropdown", "moveNext", "toggleAmPm", "manuallyDisplayDropdown", "setValue", "fullTimeDropdown", "inputRef", "movePrev"]);
+
+  const onMoveNext = () => {
+    if (moveNext) {
+      moveNext();
+      setInputFocused(false);
+    }
+  };
 
   const propsAndState = _objectSpread(_objectSpread({}, props), {}, {
     inputFocused,
@@ -69,23 +79,28 @@ const AmPmInputHelper = props => {
           toggleAmPm();
         } else if (e.key.toLocaleLowerCase() === "p") {
           setValue("PM");
-          moveNext();
+          onMoveNext();
         } else if (e.key.toLocaleLowerCase() === "a") {
           setValue("AM");
-          moveNext();
+          onMoveNext();
         }
       }
     }
-  })), /*#__PURE__*/_react.default.createElement(_UnitDropdown.default, {
+  })), eachInputDropdown && manuallyDisplayDropdown && /*#__PURE__*/_react.default.createElement(_ArrowDown.default, {
+    onClick: () => {
+      setTimeout(() => setInputFocused(!inputFocused), 15);
+    }
+  }), /*#__PURE__*/_react.default.createElement(_UnitDropdown.default, {
     data: ["AM", "PM"],
-    shouldDisplay: shouldDisplayDropdown,
-    type: "amPm",
+    shouldDisplay: eachInputDropdown,
+    manuallyDisplayDropdown: manuallyDisplayDropdown,
+    type: "notRange",
     className: "amPm",
-    moveNext,
+    moveNext: onMoveNext,
     setValue,
     value: amPm,
-    inputFocused,
-    setInputFocused
+    dropdownVisibility: inputFocused,
+    setDropdownVisibility: setInputFocused
   }));
 };
 

@@ -19,6 +19,8 @@ var _UnitDropdown = _interopRequireDefault(require("./UnitDropdown"));
 
 var _actions = require("./actions");
 
+var _ArrowDown = _interopRequireDefault(require("./ArrowDown"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -41,17 +43,18 @@ const InputTimeHelper = props => {
   const {
     range,
     value,
-    disabled,
-    shouldDisplayDropdown,
+    eachInputDropdown,
+    manuallyDisplayDropdown,
     setValue,
     moveNext,
-    movePrev,
-    inputRef,
     allowDelete,
     toggleAmPm,
-    className
+    className,
+    fullTimeDropdown,
+    inputRef,
+    movePrev
   } = props,
-        otherProps = _objectWithoutProperties(props, ["range", "value", "disabled", "shouldDisplayDropdown", "setValue", "moveNext", "movePrev", "inputRef", "allowDelete", "toggleAmPm", "className"]);
+        otherProps = _objectWithoutProperties(props, ["range", "value", "eachInputDropdown", "manuallyDisplayDropdown", "setValue", "moveNext", "allowDelete", "toggleAmPm", "className", "fullTimeDropdown", "inputRef", "movePrev"]);
 
   const [changedValue, setChangedValue] = (0, _react.useState)(value);
   const [keyPressed, setKeyPressed] = (0, _react.useState)("");
@@ -69,6 +72,13 @@ const InputTimeHelper = props => {
   const setSafeValue = value => {
     if (parseInt(value) >= range.start && parseInt(value) <= range.end) {
       setValue(value);
+    }
+  };
+
+  const onMoveNext = () => {
+    if (moveNext) {
+      moveNext();
+      setInputFocused(false);
     }
   };
 
@@ -102,7 +112,7 @@ const InputTimeHelper = props => {
         parseInt(newHour.toString()) <= range.end && setSafeValue(newHour);
 
         if (canNotWriteMoreTo(newHour) || changeCount >= 1) {
-          moveNext && moveNext();
+          onMoveNext();
         }
       } else {
         setFirstFocus(true);
@@ -111,7 +121,7 @@ const InputTimeHelper = props => {
     }
   }, [changedValue]);
 
-  const onBackSpaceTap = e => e.key === "Backspace" && allowDelete && setValue("");
+  const onBackSpaceTap = e => e.key === "Backspace" && allowDelete && setValue("--");
 
   const onArrowDownTap = e => {
     if (e.key === "ArrowDown") {
@@ -140,7 +150,7 @@ const InputTimeHelper = props => {
   };
 
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "inputWrapper"
+    className: "inputWrapper ".concat(manuallyDisplayDropdown ? "manuallyDisplayDropdown" : "")
   }, /*#__PURE__*/_react.default.createElement("input", _extends({}, (0, _actions.getSameInputProps)(propsAndState), {
     onFocus: () => {
       setFirstFocus(true);
@@ -157,17 +167,23 @@ const InputTimeHelper = props => {
       onArrowUpTap(e);
     },
     onChange: e => setChangedValue(e.target.value),
+    onClick: e => e.stopPropagation(),
     type: "number",
     min: range.start,
     max: range.end
-  })), /*#__PURE__*/_react.default.createElement(_UnitDropdown.default, {
-    shouldDisplay: shouldDisplayDropdown,
+  })), eachInputDropdown && manuallyDisplayDropdown && /*#__PURE__*/_react.default.createElement(_ArrowDown.default, {
+    onClick: () => {
+      setTimeout(() => setInputFocused(!inputFocused), 15);
+    }
+  }), /*#__PURE__*/_react.default.createElement(_UnitDropdown.default, {
+    shouldDisplay: eachInputDropdown,
+    manuallyDisplayDropdown: manuallyDisplayDropdown,
     data: new Array(range.end + 1 - range.start).fill(""),
     range,
-    moveNext,
+    moveNext: onMoveNext,
     setValue: setSafeValue,
-    inputFocused,
-    setInputFocused,
+    dropdownVisibility: inputFocused,
+    setDropdownVisibility: setInputFocused,
     value
   })));
 };

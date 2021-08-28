@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSameInputProps = exports.onSideArrowTap = exports.onEscapeOrEnterTap = exports.getDatePartsByProps = exports.isOnMobileDevice = exports.doubleChar = void 0;
+exports.getTimeString = exports.getSameInputProps = exports.onSideArrowTap = exports.onEscapeOrEnterTap = exports.getDatePartsByProps = exports.isOnMobileDevice = exports.doubleChar = void 0;
 
 require("core-js/modules/es.string.split.js");
 
@@ -48,14 +48,14 @@ exports.getDatePartsByProps = getDatePartsByProps;
 const onEscapeOrEnterTap = (e, props) => {
   const {
     inputFocused,
-    shouldDisplayDropdown,
+    eachInputDropdown,
     movePrev,
     setInputFocused,
     inputRef,
     moveNext
   } = props;
 
-  if (e.key === "Escape" && inputFocused && shouldDisplayDropdown) {
+  if (e.key === "Escape" && inputFocused && eachInputDropdown) {
     setInputFocused(false);
 
     if (movePrev) {
@@ -65,7 +65,7 @@ const onEscapeOrEnterTap = (e, props) => {
     }
   }
 
-  if (e.key === "Enter" && inputFocused && shouldDisplayDropdown) {
+  if (e.key === "Enter" && inputFocused && eachInputDropdown) {
     setInputFocused(false);
 
     if (moveNext) {
@@ -92,19 +92,35 @@ exports.onSideArrowTap = onSideArrowTap;
 const getSameInputProps = props => {
   const {
     setInputFocused,
+    inputFocused,
     disabled,
-    inputRef
+    inputRef,
+    manuallyDisplayDropdown
   } = props;
   return {
-    onFocusCapture: () => setInputFocused(true),
+    onFocusCapture: () => !manuallyDisplayDropdown && setInputFocused(true),
     disabled,
     onBlurCapture: e => {
-      setTimeout(() => {
+      !inputFocused && setTimeout(() => {
         setInputFocused(false);
-      }, 50);
+      }, 10);
     },
     ref: inputRef
   };
 };
 
 exports.getSameInputProps = getSameInputProps;
+
+const getTimeString = (hour, minute, amPm, hour12Format) => {
+  let hour24Format = !hour12Format && doubleChar(hour);
+  let hour12Am = amPm === "AM" && hour.toString() === "12" && "00";
+  let hour12Pm = amPm === "PM" && hour.toString() === "12" && "12";
+  const calculateHour = parseInt(hour) + (amPm === "PM" && hour !== "12" ? 12 : 0);
+  let dateString24 = doubleChar((hour24Format || hour12Am || hour12Pm || calculateHour).toString()) + ":" + minute; // let hour24 = dateString24.substring(0, 2);
+  // let hour12 = doubleChar(parseInt(hour24) < 12 ? hour24 : parseInt(hour24) - 12);
+  // let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
+
+  return dateString24;
+};
+
+exports.getTimeString = getTimeString;
