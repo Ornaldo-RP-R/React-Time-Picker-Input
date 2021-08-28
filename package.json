@@ -3,6 +3,11 @@
   "description": "Simple react imte picker input",
   "author": "ornaldo",
   "keywords": [
+    "time",
+    "input",
+    "react-component",
+    "component",
+    "picker",
     "react-time-picker",
     "react-time-input",
     "time-picker",
