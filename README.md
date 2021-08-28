@@ -1,7 +1,6 @@
 # React-Time-Picker-Input
 
 Simple and light time picker for React app.
-
 No moment.js needed
 
 ## Installation
@@ -39,6 +38,20 @@ const [value, setValue] = useState('10:00');
 
 }
 ```
+
+## Props
+
+| PropName                | Type     | default    | description                                                                                                                   |
+| ----------------------- | -------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| onChange                | function | (date)=>{} | It fires every time that time is valid (minute hour exists) and returns date parameter which is date in string 24 hour format |
+| onChangeEveryFormat     | function | (date)=>{} | Similar to onChange but it can be used when allowDelete is true to get every value no matter if it is valid                   |
+| value                   | String   | "- -"      | Defines default value of TimePicker. Required format ("HH:mm") ex("22:04") -> always 24Hour format                            |
+| hour12Format            | boolean  | false      | make it true to make input 12HourFormat support see on demo example                                                           |
+| allowDelete             | boolean  | false      | make it true if you want to allow user to delete fields (hour and minutes) using Backspace                                    |
+| disabled                | boolean  | false      | make it true if you want to block user editting (no change on input can happen and cursor is turned to disabled)              |
+| eachInputDropdown       | boolean  | false      | make it true if you want to activate drodpown for each input (default is automatically not manually managed)                  |
+| manuallyDisplayDropdown | boolean  | false      | make it true if use eachInputDropdown prop to turn each dropdown to manually controlled mode                                  |
+| fullTimeDropdown        | boolean  | false      | make it true if you want to activate full dropdown time see demo                                                              |
 
 ## Custom styling
 
@@ -104,12 +117,3 @@ or
   // css here
 }
 ```
-
-## Props
-
-| PropName     | Type     | default        | description                                                                                                                    |
-| ------------ | -------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| onChange     | function | (newValue)=>{} | function that access newValue (new date) param it returns time string if it is valid or if any of parts is empty does not fire |
-| value        | String   | "- -"          | Defines default value of TimePicker. Required format ("HH:mm") ex("22:04") -> always 24Hour format                             |
-| hour12Format | boolean  | false          | make it true to make input 12HourFormat support see on demo example                                                            |
-| allowDelete  | boolean  | false          | make it true if you want to allow user to delete hour and minute using Backspace                                               |

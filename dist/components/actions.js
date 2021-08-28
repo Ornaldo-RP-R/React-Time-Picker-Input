@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getDatePartsByProps = exports.isOnMobileDevice = exports.doubleChar = void 0;
+exports.getSameInputProps = exports.onSideArrowTap = exports.onEscapeOrEnterTap = exports.getDatePartsByProps = exports.isOnMobileDevice = exports.doubleChar = void 0;
 
 require("core-js/modules/es.string.split.js");
 
@@ -44,3 +44,67 @@ const getDatePartsByProps = (stringTimeValue, hour12Format) => {
 };
 
 exports.getDatePartsByProps = getDatePartsByProps;
+
+const onEscapeOrEnterTap = (e, props) => {
+  const {
+    inputFocused,
+    shouldDisplayDropdown,
+    movePrev,
+    setInputFocused,
+    inputRef,
+    moveNext
+  } = props;
+
+  if (e.key === "Escape" && inputFocused && shouldDisplayDropdown) {
+    setInputFocused(false);
+
+    if (movePrev) {
+      movePrev();
+    } else {
+      inputRef.current.blur();
+    }
+  }
+
+  if (e.key === "Enter" && inputFocused && shouldDisplayDropdown) {
+    setInputFocused(false);
+
+    if (moveNext) {
+      moveNext();
+    } else {
+      inputRef.current.blur();
+    }
+  }
+};
+
+exports.onEscapeOrEnterTap = onEscapeOrEnterTap;
+
+const onSideArrowTap = (e, props) => {
+  const {
+    moveNext,
+    movePrev
+  } = props;
+  e.key === "ArrowRight" && moveNext && moveNext();
+  e.key === "ArrowLeft" && movePrev && movePrev();
+};
+
+exports.onSideArrowTap = onSideArrowTap;
+
+const getSameInputProps = props => {
+  const {
+    setInputFocused,
+    disabled,
+    inputRef
+  } = props;
+  return {
+    onFocusCapture: () => setInputFocused(true),
+    disabled,
+    onBlurCapture: e => {
+      setTimeout(() => {
+        setInputFocused(false);
+      }, 50);
+    },
+    ref: inputRef
+  };
+};
+
+exports.getSameInputProps = getSameInputProps;

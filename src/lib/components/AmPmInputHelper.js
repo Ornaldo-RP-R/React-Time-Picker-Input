@@ -1,11 +1,31 @@
 import React, { useState } from "react";
 import UnitDropdown from "./UnitDropdown";
-import {onEscapeOrEnterTap,onSideArrowTap,getSameInputProps} from "./actions"
+import ArrowDown from "./ArrowDown";
+import { onEscapeOrEnterTap, onSideArrowTap, getSameInputProps } from "./actions";
 
 const AmPmInputHelper = (props) => {
   const [inputFocused, setInputFocused] = useState(false);
-  const { amPm, movePrev,shouldDisplayDropdown,disabled, moveNext, toggleAmPm, setValue, inputRef, ...otherProps } = props;
-  const propsAndState={...props,inputFocused,setInputFocused}
+  const {
+    amPm,
+    eachInputDropdown,
+    moveNext,
+    toggleAmPm,
+    manuallyDisplayDropdown,
+    setValue,
+    fullTimeDropdown,
+    inputRef,
+    movePrev,
+    ...otherProps
+  } = props;
+
+  const onMoveNext = () => {
+    if (moveNext) {
+      moveNext();
+      setInputFocused(false);
+    }
+  };
+
+  const propsAndState = { ...props, inputFocused, setInputFocused };
   return (
     <React.Fragment>
       <input
@@ -17,8 +37,8 @@ const AmPmInputHelper = (props) => {
         onKeyDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          onEscapeOrEnterTap(e,propsAndState);
-          onSideArrowTap(e,propsAndState);
+          onEscapeOrEnterTap(e, propsAndState);
+          onSideArrowTap(e, propsAndState);
           if (
             e.key.toLocaleLowerCase() === "p" ||
             e.key === "ArrowUp" ||
@@ -29,20 +49,34 @@ const AmPmInputHelper = (props) => {
               toggleAmPm();
             } else if (e.key.toLocaleLowerCase() === "p") {
               setValue("PM");
-              moveNext();
+              onMoveNext();
             } else if (e.key.toLocaleLowerCase() === "a") {
               setValue("AM");
-              moveNext();
+              onMoveNext();
             }
           }
         }}
       />
+      {eachInputDropdown && manuallyDisplayDropdown && (
+        <ArrowDown
+          onClick={() => {
+            setTimeout(() => setInputFocused(!inputFocused), 15);
+          }}
+        />
+      )}
       <UnitDropdown
         data={["AM", "PM"]}
-        shouldDisplay={shouldDisplayDropdown}
-        type="amPm"
+        shouldDisplay={eachInputDropdown}
+        manuallyDisplayDropdown={manuallyDisplayDropdown}
+        type="notRange"
         className="amPm"
-        {...{ moveNext, setValue, value: amPm, inputFocused, setInputFocused }}
+        {...{
+          moveNext: onMoveNext,
+          setValue,
+          value: amPm,
+          dropdownVisibility: inputFocused,
+          setDropdownVisibility: setInputFocused,
+        }}
       />
     </React.Fragment>
   );

@@ -11,6 +11,7 @@
   height: 100%;
   width: auto;
   justify-content: center;
+  position: relative;
 }
 
 .react-time-input-picker input::-webkit-outer-spin-button,
@@ -54,7 +55,7 @@
   position: relative;
   align-items: center;
   height: 100%;
-  max-width: 60px;
+  max-width: auto;
   display: flex;
 }
 
@@ -64,7 +65,7 @@
 }
 
 .inputWrapper:nth-child(2) {
-  max-width: 55px;
+  max-width: auto;
 }
 
 .inputWrapper:nth-child(1)::after {
@@ -96,8 +97,15 @@
 
 .react-time-input-picker input[type="text"] {
   min-width: unset;
-  max-width: 55px;
+  max-width: 45px;
   height: 100%;
+}
+
+.react-time-input-picker .arrow-down {
+  margin-right: 7px;
+  cursor: pointer;
+  height: 100%;
+  margin-bottom: 0;
 }
 
 .react-time-input-picker .input-time-mobile input[type="time"] {
@@ -135,6 +143,12 @@
   background: #fff;
   padding: 5px 0;
 }
+
+.manuallyDisplayDropdown .inputWrapper__dropdown {
+  min-width: 110%;
+  width: 110%;
+}
+
 .inputWrapper__dropdown.amPm {
   width: 110%;
   min-width: 110%;
@@ -179,4 +193,34 @@
 
 .inputWrapper__dropdown::-webkit-scrollbar-thumb:hover {
   background: #434343;
+}
+
+.fullTime__wrapper {
+  position: absolute;
+  width: 110%;
+  left: -5%;
+  right: 5%;
+  bottom: 0px;
+}
+
+.fullTime__wrapper .inputWrapper__dropdown.fullTime {
+  left: 0;
+  right: 0;
+  width: 100%;
+  min-width: 100%;
+}
+
+.fullTime__wrapper .inputWrapper__dropdown.fullTime span {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.fullTime__wrapper .inputWrapper__dropdown.fullTime div {
+  height: 100%;
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 2px;
+  margin-left: 10px;
+  align-items: center;
 }

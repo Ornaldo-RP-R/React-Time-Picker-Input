@@ -1,21 +1,42 @@
 import React, { useState, useEffect } from "react";
 import UnitDropdown from "./UnitDropdown";
-import { doubleChar,onEscapeOrEnterTap,onSideArrowTap,getSameInputProps } from "./actions";
+import { doubleChar, onEscapeOrEnterTap, onSideArrowTap, getSameInputProps } from "./actions";
+import ArrowDown from "./ArrowDown";
 
 const InputTimeHelper = (props) => {
-  const { range, value,disabled,shouldDisplayDropdown, setValue, moveNext, movePrev, inputRef, allowDelete, toggleAmPm, className, ...otherProps } =
-    props;
+  const {
+    range,
+    value,
+    eachInputDropdown,
+    manuallyDisplayDropdown,
+    setValue,
+    moveNext,
+    allowDelete,
+    toggleAmPm,
+    className,
+    fullTimeDropdown,
+    inputRef,
+    movePrev,
+    ...otherProps
+  } = props;
   const [changedValue, setChangedValue] = useState(value);
   const [keyPressed, setKeyPressed] = useState("");
   const [firstFocus, setFirstFocus] = useState(true);
   const [changeCount, setChangeCount] = useState(0);
   const [inputFocused, setInputFocused] = useState(false);
-  const propsAndState={...props,inputFocused,setInputFocused}
+  const propsAndState = { ...props, inputFocused, setInputFocused };
 
   const cleanNumber = (number) => (!isNaN(number) ? number : "").toString().replace("0", "");
   const setSafeValue = (value) => {
     if (parseInt(value) >= range.start && parseInt(value) <= range.end) {
       setValue(value);
+    }
+  };
+
+  const onMoveNext = () => {
+    if (moveNext) {
+      moveNext();
+      setInputFocused(false);
     }
   };
 
@@ -46,7 +67,7 @@ const InputTimeHelper = (props) => {
       if (parseInt(newHour.toString()) >= range.start) {
         parseInt(newHour.toString()) <= range.end && setSafeValue(newHour);
         if (canNotWriteMoreTo(newHour) || changeCount >= 1) {
-          moveNext && moveNext();
+          onMoveNext();
         }
       } else {
         setFirstFocus(true);
@@ -55,7 +76,7 @@ const InputTimeHelper = (props) => {
     }
   }, [changedValue]);
 
-  const onBackSpaceTap = (e) => e.key === "Backspace" && allowDelete && setValue("");
+  const onBackSpaceTap = (e) => e.key === "Backspace" && allowDelete && setValue("--");
 
   const onArrowDownTap = (e) => {
     if (e.key === "ArrowDown") {
@@ -84,7 +105,7 @@ const InputTimeHelper = (props) => {
 
   return (
     <React.Fragment>
-      <div className="inputWrapper">
+      <div className={`inputWrapper ${manuallyDisplayDropdown ? "manuallyDisplayDropdown" : ""}`}>
         <input
           {...getSameInputProps(propsAndState)}
           onFocus={() => {
@@ -94,22 +115,38 @@ const InputTimeHelper = (props) => {
           {...otherProps}
           value={value}
           onKeyDown={(e) => {
-            onEscapeOrEnterTap(e,propsAndState)
-            onSideArrowTap(e,propsAndState);
+            onEscapeOrEnterTap(e, propsAndState);
+            onSideArrowTap(e, propsAndState);
             setKeyPressed(e.key);
             onBackSpaceTap(e);
             onArrowDownTap(e);
             onArrowUpTap(e);
           }}
           onChange={(e) => setChangedValue(e.target.value)}
+          onClick={(e)=>e.stopPropagation()}
           type="number"
           min={range.start}
           max={range.end}
         />
+        {eachInputDropdown && manuallyDisplayDropdown && (
+          <ArrowDown
+            onClick={() => {
+              setTimeout(() => setInputFocused(!inputFocused), 15);
+            }}
+          />
+        )}
         <UnitDropdown
-          shouldDisplay={shouldDisplayDropdown}
+          shouldDisplay={eachInputDropdown}
+          manuallyDisplayDropdown={manuallyDisplayDropdown}
           data={new Array(range.end + 1 - range.start).fill("")}
-          {...{ range, moveNext, setValue: setSafeValue, inputFocused, setInputFocused, value }}
+          {...{
+            range,
+            moveNext: onMoveNext,
+            setValue: setSafeValue,
+            dropdownVisibility: inputFocused,
+            setDropdownVisibility: setInputFocused,
+            value,
+          }}
         />
       </div>
     </React.Fragment>
