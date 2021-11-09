@@ -4,8 +4,6 @@ import AmPmInputHelper from "./AmPmInputHelper";
 import { doubleChar, isOnMobileDevice, getDatePartsByProps, getTimeString } from "./actions";
 import ArrowDown from "./ArrowDown";
 import UnitDropdown from "./UnitDropdown";
-import "./TimeInput.css";
-
 function TimeInput(props) {
   const {
     hour12Format,
