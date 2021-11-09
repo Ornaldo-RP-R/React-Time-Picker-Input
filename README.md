@@ -8,9 +8,12 @@ No moment.js needed
 npm install react-time-picker-input <br/>
 yarn add react-time-picker-input
 
-## Import
+## Import Component
 
 import TimePicker from 'react-time-picker-input'
+
+## Import Styles
+
 import "react-time-picker-input/dist/components/TimeInput.css"
 
 ## Demo
