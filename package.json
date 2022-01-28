@@ -33,12 +33,13 @@
     "url": "git+https://github.com/Ornaldo-RP-R/React-Time-Picker-Input"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.16.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "core-js": "^3.12.1",
-    "node-sass": "^5.0.0",
+    "core-js": "^3.20.3",
+    "sass": "^1.49.0",
+    "preact": "^10.6.4",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -73,9 +74,9 @@
   "devDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12"
+    "@babel/preset-env": "^7.13.12",
+    "react-scripts": "4.0.3"
   }
 }
