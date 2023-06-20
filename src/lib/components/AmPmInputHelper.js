@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import UnitDropdown from "./UnitDropdown";
+import KeyDown from "./KeyDown"
 import ArrowDown from "./ArrowDown";
-import { onEscapeOrEnterTap, onSideArrowTap, getSameInputProps } from "./actions";
+import { useOnSideArrowTap, getSameInputProps, timers } from "./actions";
 
 const AmPmInputHelper = (props) => {
   const [inputFocused, setInputFocused] = useState(false);
@@ -18,54 +19,49 @@ const AmPmInputHelper = (props) => {
     ...otherProps
   } = props;
 
-  const onMoveNext = () => {
-    if (moveNext) {
-      moveNext();
-      setInputFocused(false);
-    }
-  };
+ const onMoveNext = useCallback(() => {
+   if (moveNext) {
+     moveNext();
+     setInputFocused(false);
+   }
+ }, [moveNext, setInputFocused]);
 
   const propsAndState = { ...props, inputFocused, setInputFocused };
+
+  const onSideArrowTap = useOnSideArrowTap(moveNext, movePrev);
+
+  const onKeyDown = useCallback(
+    (e) => {
+      const { key } = e || {};
+      e.preventDefault();
+      e.stopPropagation();
+      onSideArrowTap(e);
+      const aPressed = key?.toLocaleLowerCase?.() === "a";
+      if (key === "ArrowUp" || key === "ArrowDown") {
+        toggleAmPm();
+      } else if (key?.toLocaleLowerCase?.() === "p" || aPressed) {
+        setValue(aPressed ? "AM" : "PM");
+        onMoveNext();
+      }
+    },
+    [onMoveNext, setValue, toggleAmPm, onSideArrowTap]
+  );
+    
+
   return (
     <React.Fragment>
-      <input
-        {...getSameInputProps(propsAndState)}
-        value={amPm}
-        type="text"
-        {...otherProps}
-        readOnly
-        onKeyDown={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onEscapeOrEnterTap(e, propsAndState);
-          onSideArrowTap(e, propsAndState);
-          if (
-            e.key.toLocaleLowerCase() === "p" ||
-            e.key === "ArrowUp" ||
-            e.key === "ArrowDown" ||
-            e.key.toLocaleLowerCase() === "a"
-          ) {
-            if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-              toggleAmPm();
-            } else if (e.key.toLocaleLowerCase() === "p") {
-              setValue("PM");
-              onMoveNext();
-            } else if (e.key.toLocaleLowerCase() === "a") {
-              setValue("AM");
-              onMoveNext();
-            }
-          }
-        }}
-      />
+      <KeyDown onKeyDown={onKeyDown} reference={inputRef}>
+       <input {...getSameInputProps(propsAndState)} value={amPm} type="text" {...otherProps} readOnly />
+      </KeyDown>
       {eachInputDropdown && manuallyDisplayDropdown && (
         <ArrowDown
           onClick={() => {
-            setTimeout(() => setInputFocused(!inputFocused), 15);
+            timers.push(setTimeout(() => setInputFocused(!inputFocused), 15));
           }}
         />
       )}
       <UnitDropdown
-        data={["AM", "PM"]}
+        data={data}
         shouldDisplay={eachInputDropdown}
         manuallyDisplayDropdown={manuallyDisplayDropdown}
         type="notRange"
@@ -81,5 +77,7 @@ const AmPmInputHelper = (props) => {
     </React.Fragment>
   );
 };
+
+const data = ["AM", "PM"];
 
 export default AmPmInputHelper;

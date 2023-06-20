@@ -1,6 +1,6 @@
 import React, { useEffect , useRef } from "react";
-import ReactCSSTransitionReplace from "react-css-transition-replace";
-import { doubleChar, getTimeString } from "./actions";
+import { doubleChar, getTimeString, timers } from "./actions";
+import TransitionReplace from "./TransitionReplace";
 
 const UnitDropdown = (props) => {
   const {
@@ -20,11 +20,8 @@ const UnitDropdown = (props) => {
   } = props;
   const dropdownRef = useRef(null);
 
-  const hideDropdown=()=>{
-    setDropdownVisibility(false)
-  }
-
   useEffect(() => {
+    const hideDropdown = () => setDropdownVisibility(false);
     window.addEventListener("click", hideDropdown);
     document.querySelector("body").addEventListener("click", hideDropdown);
     return () => {
@@ -33,40 +30,8 @@ const UnitDropdown = (props) => {
     };
   }, []);
 
-  const getStyleWithoutPx = (element, styleProp) => {
-    return parseInt((element.currentStyle || window.getComputedStyle(element))[styleProp].replace("px", ""));
-  };
-
-  const scrollToActiveUnit = (currentUnit, index, ref) => {
-    let activeUnit = document.querySelector(`[data-key="${currentUnit}"]`);
-    let scrollContainer = ref.current;
-
-    if (scrollContainer && activeUnit) {
-      const additionalHeightProp = [
-        "borderTopWidth",
-        "borderBottomWidth",
-        "paddingTop",
-        "paddingBottom",
-        "marginBottom",
-        "marginTop",
-      ];
-      const scrollerAdditionalHeight = additionalHeightProp
-        .map((prop) => getStyleWithoutPx(scrollContainer, prop))
-        .reduce((a, b) => a + b, 0);
-      const activeUnitAdditionalHeight = additionalHeightProp
-        .map((prop) => getStyleWithoutPx(activeUnit, prop))
-        .reduce((a, b) => a + b, 0);
-      const activeUnitHeight = activeUnit.getBoundingClientRect().height + activeUnitAdditionalHeight;
-      const scrollContainerHeight = scrollContainer.getBoundingClientRect().height + scrollerAdditionalHeight;
-      scrollContainer.scrollTo({
-        top: activeUnitHeight * index - scrollContainerHeight / 2,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
-    <ReactCSSTransitionReplace transitionName="cross-fade" transitionEnterTimeout={150} transitionLeaveTimeout={150}>
+    <TransitionReplace transitionName="cross-fade" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
       {dropdownVisibility && shouldDisplay && (
         <div ref={dropdownRef} className={`inputWrapper__dropdown ${className || ""}`}>
           {data.map((unit, index) => {
@@ -85,9 +50,11 @@ const UnitDropdown = (props) => {
             }
             if (currentUnit === value) {
               scrollToActiveUnit(currentUnit, index + 1, dropdownRef);
-              setTimeout(() => {
-                scrollToActiveUnit(currentUnit, index + 1, dropdownRef);
-              }, 250);
+              timers.push(
+                setTimeout(() => {
+                  scrollToActiveUnit(currentUnit, index + 1, dropdownRef);
+                }, 250)
+              );
             }
             return (
               <span
@@ -110,7 +77,41 @@ const UnitDropdown = (props) => {
           })}
         </div>
       )}
-    </ReactCSSTransitionReplace>
+    </TransitionReplace>
   );
 };
+
+ const additionalHeightProp = [
+   "borderTopWidth",
+   "borderBottomWidth",
+   "paddingTop",
+   "paddingBottom",
+   "marginBottom",
+   "marginTop",
+ ];
+
+const getStyleWithoutPx = (element, styleProp) => {
+  return parseInt((element.currentStyle || window.getComputedStyle(element))[styleProp].replace("px", ""));
+};
+
+  const scrollToActiveUnit = (currentUnit, index, ref) => {
+    let activeUnit = document.querySelector(`[data-key="${currentUnit}"]`);
+    let scrollContainer = ref.current;
+
+    if (scrollContainer && activeUnit) {
+      const scrollerAdditionalHeight = additionalHeightProp
+        .map((prop) => getStyleWithoutPx(scrollContainer, prop))
+        .reduce((a, b) => a + b, 0);
+      const activeUnitAdditionalHeight = additionalHeightProp
+        .map((prop) => getStyleWithoutPx(activeUnit, prop))
+        .reduce((a, b) => a + b, 0);
+      const activeUnitHeight = activeUnit.getBoundingClientRect().height + activeUnitAdditionalHeight;
+      const scrollContainerHeight = scrollContainer.getBoundingClientRect().height + scrollerAdditionalHeight;
+      scrollContainer.scrollTo({
+        top: activeUnitHeight * index - scrollContainerHeight / 2,
+        behavior: "smooth",
+      });
+    }
+  };
+
 export default UnitDropdown;

@@ -224,3 +224,21 @@
   margin-left: 10px;
   align-items: center;
 }
+
+.cross-fade-enter {
+  opacity: 0;
+}
+
+.cross-fade-enter.cross-fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.cross-fade-exit {
+  opacity: 1;
+}
+
+.cross-fade-exit.cross-fade-exit-active {
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+}

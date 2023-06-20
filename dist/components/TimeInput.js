@@ -48,12 +48,16 @@ function TimeInput(props) {
     hour12Format,
     value,
     onChange: _onChange,
+<<<<<<< Updated upstream
     onChangeEveryFormat,
     disabled,
     allowDelete,
     eachInputDropdown,
     manuallyDisplayDropdown,
     fullTimeDropdown
+=======
+    allowDelete
+>>>>>>> Stashed changes
   } = props;
   const [isMobile, setIsMobile] = (0, _react.useState)((0, _actions.isOnMobileDevice)());
   const dateParts = (0, _actions.getDatePartsByProps)(value, hour12Format);
@@ -106,7 +110,19 @@ function TimeInput(props) {
     console.log(dateString);
 
     if (hour !== "" && minute !== "" && !isMobile) {
+<<<<<<< Updated upstream
       _onChange && _onChange(dateString);
+=======
+      let hour24Format = !hour12Format && (0, _actions.doubleChar)(hour);
+      let hour12Am = amPm === "AM" && hour === "12" && "00";
+      const calculateHour = parseInt(hour) + (amPm === "PM" && hour !== "12" ? 12 : 0);
+      let dateString24 = (0, _actions.doubleChar)((hour24Format || hour12Am || calculateHour).toString()) + ":" + minute;
+      let hour24 = dateString24.substring(0, 2);
+      let hour12 = (0, _actions.doubleChar)(parseInt(hour24) < 12 ? hour24 : parseInt(hour24) - 12);
+      let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
+
+      _onChange(dateString24);
+>>>>>>> Stashed changes
     }
   }, [hour, minute, amPm]);
   (0, _react.useEffect)(() => {
@@ -173,9 +189,16 @@ function TimeInput(props) {
     value: valueMobile,
     onChange: e => {
       setValueMobile(e.target.value);
+<<<<<<< Updated upstream
       _onChange && _onChange(e.target.value);
     }
   })) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, _extends({
+=======
+
+      _onChange(e.target.value);
+    }
+  })) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
+>>>>>>> Stashed changes
     inputRef: hourRef,
     value: hour,
     setValue: setHour
