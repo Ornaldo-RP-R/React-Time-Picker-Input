@@ -9,17 +9,17 @@ exports.default = void 0;
 
 require("core-js/modules/es.string.replace.js");
 
-require("core-js/modules/es.array.reduce.js");
-
 require("core-js/modules/es.string.includes.js");
 
 require("core-js/modules/es.string.split.js");
 
+require("core-js/modules/es.array.reduce.js");
+
 var _react = _interopRequireWildcard(require("react"));
 
-var _reactCssTransitionReplace = _interopRequireDefault(require("react-css-transition-replace"));
-
 var _actions = require("./actions");
+
+var _TransitionReplace = _interopRequireDefault(require("./TransitionReplace"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,12 +44,9 @@ const UnitDropdown = props => {
     fullTimeDropdownVisibility
   } = props;
   const dropdownRef = (0, _react.useRef)(null);
-
-  const hideDropdown = () => {
-    setDropdownVisibility(false);
-  };
-
   (0, _react.useEffect)(() => {
+    const hideDropdown = () => setDropdownVisibility(false);
+
     window.addEventListener("click", hideDropdown);
     document.querySelector("body").addEventListener("click", hideDropdown);
     return () => {
@@ -57,32 +54,10 @@ const UnitDropdown = props => {
       document.querySelector("body").removeEventListener("click", hideDropdown);
     };
   }, []);
-
-  const getStyleWithoutPx = (element, styleProp) => {
-    return parseInt((element.currentStyle || window.getComputedStyle(element))[styleProp].replace("px", ""));
-  };
-
-  const scrollToActiveUnit = (currentUnit, index, ref) => {
-    let activeUnit = document.querySelector("[data-key=\"".concat(currentUnit, "\"]"));
-    let scrollContainer = ref.current;
-
-    if (scrollContainer && activeUnit) {
-      const additionalHeightProp = ["borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom", "marginBottom", "marginTop"];
-      const scrollerAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(scrollContainer, prop)).reduce((a, b) => a + b, 0);
-      const activeUnitAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(activeUnit, prop)).reduce((a, b) => a + b, 0);
-      const activeUnitHeight = activeUnit.getBoundingClientRect().height + activeUnitAdditionalHeight;
-      const scrollContainerHeight = scrollContainer.getBoundingClientRect().height + scrollerAdditionalHeight;
-      scrollContainer.scrollTo({
-        top: activeUnitHeight * index - scrollContainerHeight / 2,
-        behavior: "smooth"
-      });
-    }
-  };
-
-  return /*#__PURE__*/_react.default.createElement(_reactCssTransitionReplace.default, {
+  return /*#__PURE__*/_react.default.createElement(_TransitionReplace.default, {
     transitionName: "cross-fade",
-    transitionEnterTimeout: 150,
-    transitionLeaveTimeout: 150
+    transitionEnterTimeout: 250,
+    transitionLeaveTimeout: 250
   }, dropdownVisibility && shouldDisplay && /*#__PURE__*/_react.default.createElement("div", {
     ref: dropdownRef,
     className: "inputWrapper__dropdown ".concat(className || "")
@@ -104,9 +79,10 @@ const UnitDropdown = props => {
 
     if (currentUnit === value) {
       scrollToActiveUnit(currentUnit, index + 1, dropdownRef);
-      setTimeout(() => {
+
+      _actions.timers.push(setTimeout(() => {
         scrollToActiveUnit(currentUnit, index + 1, dropdownRef);
-      }, 250);
+      }, 250));
     }
 
     return /*#__PURE__*/_react.default.createElement("span", {
@@ -122,6 +98,28 @@ const UnitDropdown = props => {
       className: currentUnit === value ? "is-active" : ""
     }, /*#__PURE__*/_react.default.createElement("div", null, unitLabel.replace("AM", "").replace("PM", "")), unitLabel.toLowerCase().includes("am") && /*#__PURE__*/_react.default.createElement("div", null, "AM"), unitLabel.toLowerCase().includes("pm") && /*#__PURE__*/_react.default.createElement("div", null, "PM"));
   })));
+};
+
+const additionalHeightProp = ["borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom", "marginBottom", "marginTop"];
+
+const getStyleWithoutPx = (element, styleProp) => {
+  return parseInt((element.currentStyle || window.getComputedStyle(element))[styleProp].replace("px", ""));
+};
+
+const scrollToActiveUnit = (currentUnit, index, ref) => {
+  let activeUnit = document.querySelector("[data-key=\"".concat(currentUnit, "\"]"));
+  let scrollContainer = ref.current;
+
+  if (scrollContainer && activeUnit) {
+    const scrollerAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(scrollContainer, prop)).reduce((a, b) => a + b, 0);
+    const activeUnitAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(activeUnit, prop)).reduce((a, b) => a + b, 0);
+    const activeUnitHeight = activeUnit.getBoundingClientRect().height + activeUnitAdditionalHeight;
+    const scrollContainerHeight = scrollContainer.getBoundingClientRect().height + scrollerAdditionalHeight;
+    scrollContainer.scrollTo({
+      top: activeUnitHeight * index - scrollContainerHeight / 2,
+      behavior: "smooth"
+    });
+  }
 };
 
 var _default = UnitDropdown;

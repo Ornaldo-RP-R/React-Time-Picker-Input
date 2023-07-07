@@ -47,51 +47,39 @@ function TimeInput(props) {
   const {
     hour12Format,
     value,
-    onChange: _onChange,
-<<<<<<< Updated upstream
+    onChange,
     onChangeEveryFormat,
     disabled,
     allowDelete,
     eachInputDropdown,
     manuallyDisplayDropdown,
     fullTimeDropdown
-=======
-    allowDelete
->>>>>>> Stashed changes
   } = props;
-  const [isMobile, setIsMobile] = (0, _react.useState)((0, _actions.isOnMobileDevice)());
   const dateParts = (0, _actions.getDatePartsByProps)(value, hour12Format);
   const [hour, setHour] = (0, _react.useState)(dateParts.hour);
   const [minute, setMinutes] = (0, _react.useState)(dateParts.minute);
   const [amPm, setAmPM] = (0, _react.useState)(dateParts.amPm);
-  const [valueMobile, setValueMobile] = (0, _react.useState)(value);
-  const [fullTimeDropdownVisibility, setFullTimeDropdownVisibility] = (0, _react.useState)(false);
+  const [isMobile, setIsMobile] = (0, _react.useState)((0, _actions.isOnMobileDevice)());
   const hourRef = (0, _react.useRef)(null);
   const minuteRef = (0, _react.useRef)(null);
   const amPmRef = (0, _react.useRef)(null);
-  const hourRange = hour12Format ? {
+  const hourRange = (0, _react.useMemo)(() => hour12Format ? {
     start: 1,
     end: 12
   } : {
     start: 0,
     end: 23
-  };
-
-  const focusElementByRef = ref => {
-    ref.current && ref.current.focus();
-  };
-
-  const blurElementByRef = ref => {
-    ref.current && ref.current.blur();
-  };
-
-  const focusMinute = () => focusElementByRef(minuteRef);
+  }, [hour12Format]);
+  const focusOnMinute = (0, _react.useCallback)(() => focusOn(minuteRef), []);
+  const blurOnMinute = (0, _react.useCallback)(() => blurOn(minuteRef), []);
+  const focusOnHour = (0, _react.useCallback)(() => focusOn(hourRef), []);
+  const focusOnAmPm = (0, _react.useCallback)(() => focusOn(amPmRef), []);
+  const blurOnAmPm = (0, _react.useCallback)(() => blurOn(amPmRef), []);
+  const toggleAmPm = (0, _react.useCallback)(() => setAmPM(prevAmPm => prevAmPm === "AM" ? "PM" : "AM"), [setAmPM]);
 
   const updateTouchDevice = () => setIsMobile((0, _actions.isOnMobileDevice)());
 
-  const toggleAmPm = () => setAmPM(amPm === "AM" ? "PM" : "AM");
-
-  const setTimeHourString = value => {
+  const setTimeHourString = (0, _react.useCallback)(value => {
     const dateParts = (0, _actions.getDatePartsByProps)(value.replace(/ /g, ""), hour12Format);
     setHour(dateParts.hour);
     setMinutes(dateParts.minute);
@@ -102,70 +90,26 @@ function TimeInput(props) {
     } else if (value.toLowerCase().includes("pm")) {
       setAmPM("PM");
     }
-  };
-
+  }, [hour12Format]);
   (0, _react.useEffect)(() => {
     const dateString = (0, _actions.getTimeString)(hour, minute, amPm, hour12Format);
     onChangeEveryFormat && onChangeEveryFormat(dateString);
-    console.log(dateString);
 
     if (hour !== "" && minute !== "" && !isMobile) {
-<<<<<<< Updated upstream
-      _onChange && _onChange(dateString);
-=======
-      let hour24Format = !hour12Format && (0, _actions.doubleChar)(hour);
-      let hour12Am = amPm === "AM" && hour === "12" && "00";
-      const calculateHour = parseInt(hour) + (amPm === "PM" && hour !== "12" ? 12 : 0);
-      let dateString24 = (0, _actions.doubleChar)((hour24Format || hour12Am || calculateHour).toString()) + ":" + minute;
-      let hour24 = dateString24.substring(0, 2);
-      let hour12 = (0, _actions.doubleChar)(parseInt(hour24) < 12 ? hour24 : parseInt(hour24) - 12);
-      let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
-
-      _onChange(dateString24);
->>>>>>> Stashed changes
+      onChange && onChange(dateString);
     }
   }, [hour, minute, amPm]);
   (0, _react.useEffect)(() => {
-    if (!isMobile) {
-      setTimeHourString(value);
-    }
+    if (!isMobile) setTimeHourString(value);
   }, [value]);
-
-  const hideDropdown = e => {
-    setFullTimeDropdownVisibility(false);
-  };
-
   (0, _react.useEffect)(() => {
     window.addEventListener("resize", updateTouchDevice);
-    window.addEventListener("click", hideDropdown);
-    document.querySelector("body").addEventListener("click", hideDropdown);
     return () => {
+      _actions.timers.forEach(clearTimeout);
+
       window.removeEventListener("resize", updateTouchDevice);
-      window.removeEventListener("click", hideDropdown);
-      document.querySelector("body").removeEventListener("click", hideDropdown);
     };
   }, []);
-
-  const fullTimeDropdownData = () => {
-    const format24Data = new Array(24).fill("").map((h, index) => ["".concat((0, _actions.doubleChar)(index), " : 00"), ["".concat((0, _actions.doubleChar)(index), " : 30")]]).flat(2);
-    let format12Data = [...format24Data];
-    format12Data.forEach((hour, index) => {
-      const hourInNumber = parseInt(hour.split(":")[0]);
-      const doubleCharMinutes = hour.split(":")[1].replace(" ", "");
-
-      if (hourInNumber === 0) {
-        format12Data[index] = "12 : ".concat(doubleCharMinutes, "  AM");
-      } else if (hourInNumber === 12) {
-        format12Data[index] = "12 : ".concat(doubleCharMinutes, "  PM");
-      } else if (hourInNumber < 12) {
-        format12Data[index] = "".concat(hour, "  AM");
-      } else {
-        format12Data[index] = "".concat((0, _actions.doubleChar)(hourInNumber - 12), " : ").concat(doubleCharMinutes, "  PM");
-      }
-    });
-    return hour12Format ? format12Data : format24Data;
-  };
-
   const amPmInputProps = {
     disabled,
     eachInputDropdown: eachInputDropdown && !fullTimeDropdown,
@@ -182,28 +126,15 @@ function TimeInput(props) {
     className: "react-time-input-picker-wrapper"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "react-time-input-picker ".concat(disabled ? "is-disabled" : "")
-  }, isMobile ? /*#__PURE__*/_react.default.createElement("div", {
-    className: "input-time-mobile"
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    type: "time",
-    value: valueMobile,
-    onChange: e => {
-      setValueMobile(e.target.value);
-<<<<<<< Updated upstream
-      _onChange && _onChange(e.target.value);
-    }
-  })) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, _extends({
-=======
-
-      _onChange(e.target.value);
-    }
-  })) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, {
->>>>>>> Stashed changes
+  }, isMobile ? /*#__PURE__*/_react.default.createElement(MobileInput, {
+    value: value,
+    onChange: onChange
+  }) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, _extends({
     inputRef: hourRef,
     value: hour,
     setValue: setHour
   }, sameInputProps, {
-    moveNext: focusMinute,
+    moveNext: focusOnMinute,
     range: hourRange,
     toggleAmPm: toggleAmPm
   })), /*#__PURE__*/_react.default.createElement(_InputTimeHelper.default, _extends({
@@ -211,43 +142,117 @@ function TimeInput(props) {
     value: minute
   }, sameInputProps, {
     setValue: setMinutes,
-    moveNext: hour12Format ? () => focusElementByRef(amPmRef) : () => blurElementByRef(minuteRef),
-    movePrev: () => focusElementByRef(hourRef),
-    range: {
-      start: 0,
-      end: 59
-    }
+    moveNext: hour12Format ? focusOnAmPm : blurOnMinute,
+    movePrev: focusOnHour,
+    range: minuteRange
   })), hour12Format && /*#__PURE__*/_react.default.createElement("div", {
     className: "inputWrapper"
   }, /*#__PURE__*/_react.default.createElement(_AmPmInputHelper.default, _extends({}, amPmInputProps, {
     inputRef: amPmRef,
     amPm: amPm,
-    movePrev: focusMinute,
-    moveNext: () => blurElementByRef(amPmRef),
+    movePrev: focusOnMinute,
+    moveNext: blurOnAmPm,
     toggleAmPm: toggleAmPm,
     setValue: setAmPM
-  }))), fullTimeDropdown && /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_ArrowDown.default, {
-    onClick: e => {
-      e.stopPropagation();
-      setFullTimeDropdownVisibility(!fullTimeDropdownVisibility);
-    }
+  }))), /*#__PURE__*/_react.default.createElement(Options, {
+    timeString: (0, _actions.getTimeString)(hour, minute, amPm, hour12Format),
+    hour12Format,
+    fullTimeDropdown,
+    manuallyDisplayDropdown,
+    setTimeHourString
+  }))));
+}
+
+const focusOn = ref => {
+  var _ref$current, _ref$current$focus;
+
+  return ref === null || ref === void 0 ? void 0 : (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : (_ref$current$focus = _ref$current.focus) === null || _ref$current$focus === void 0 ? void 0 : _ref$current$focus.call(_ref$current);
+};
+
+const blurOn = ref => {
+  var _ref$current2, _ref$current2$blur;
+
+  return ref === null || ref === void 0 ? void 0 : (_ref$current2 = ref.current) === null || _ref$current2 === void 0 ? void 0 : (_ref$current2$blur = _ref$current2.blur) === null || _ref$current2$blur === void 0 ? void 0 : _ref$current2$blur.call(_ref$current2);
+};
+
+const format24Data = new Array(24).fill("").map((h, index) => ["".concat((0, _actions.doubleChar)(index), " : 00"), ["".concat((0, _actions.doubleChar)(index), " : 30")]]).flat(2);
+let format12Data = [...format24Data];
+format12Data.forEach((hour, index) => {
+  const hourInNumber = parseInt(hour.split(":")[0]);
+  const doubleCharMinutes = hour.split(":")[1].replace(" ", "");
+
+  if (hourInNumber === 0) {
+    format12Data[index] = "12 : ".concat(doubleCharMinutes, "  AM");
+  } else if (hourInNumber === 12) {
+    format12Data[index] = "12 : ".concat(doubleCharMinutes, "  PM");
+  } else if (hourInNumber < 12) {
+    format12Data[index] = "".concat(hour, "  AM");
+  } else {
+    format12Data[index] = "".concat((0, _actions.doubleChar)(hourInNumber - 12), " : ").concat(doubleCharMinutes, "  PM");
+  }
+});
+const Options = /*#__PURE__*/(0, _react.memo)(props => {
+  const {
+    hour12Format,
+    fullTimeDropdown,
+    manuallyDisplayDropdown,
+    setTimeHourString,
+    timeString
+  } = props;
+  const [fullTimeDropdownVisibility, setFullTimeDropdownVisibility] = (0, _react.useState)(false);
+  (0, _react.useEffect)(() => {
+    const hideDropdown = e => setFullTimeDropdownVisibility(false);
+
+    window.addEventListener("click", hideDropdown);
+    document.querySelector("body").addEventListener("click", hideDropdown);
+    return () => {
+      window.removeEventListener("click", hideDropdown);
+      document.querySelector("body").removeEventListener("click", hideDropdown);
+    };
+  }, []);
+  const onArrowDown = (0, _react.useCallback)(e => {
+    e.stopPropagation();
+    setFullTimeDropdownVisibility(prevVal => !prevVal);
+  }, [setFullTimeDropdownVisibility]);
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, fullTimeDropdown && /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_ArrowDown.default, {
+    onClick: onArrowDown
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "fullTime__wrapper"
   }, /*#__PURE__*/_react.default.createElement(_UnitDropdown.default, {
     fullTimeDropdownVisibility: true,
-    data: fullTimeDropdownData(),
+    data: hour12Format ? format12Data : format24Data,
     shouldDisplay: fullTimeDropdown && fullTimeDropdownVisibility,
     manuallyDisplayDropdown: manuallyDisplayDropdown,
     type: "notRange",
     className: "fullTime",
     hour12Format: hour12Format,
-    value: (0, _actions.getTimeString)(hour, minute, amPm, hour12Format),
+    value: timeString,
     setValue: setTimeHourString,
     dropdownVisibility: fullTimeDropdownVisibility,
     setDropdownVisibility: setFullTimeDropdownVisibility
-  })))));
-}
-
+  })));
+});
+const minuteRange = {
+  start: 0,
+  end: 59
+};
+const MobileInput = /*#__PURE__*/(0, _react.memo)(props => {
+  const {
+    value,
+    onChange: _onChange
+  } = props;
+  const [valueMobile, setValueMobile] = (0, _react.useState)(value);
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "input-time-mobile"
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    type: "time",
+    value: valueMobile,
+    onChange: e => {
+      setValueMobile(e.target.value);
+      _onChange && _onChange(e.target.value);
+    }
+  }));
+});
 TimeInput.defaultProps = {
   hour12Format: false,
   disabled: false,

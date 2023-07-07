@@ -13,6 +13,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _UnitDropdown = _interopRequireDefault(require("./UnitDropdown"));
 
+var _KeyDown = _interopRequireDefault(require("./KeyDown"));
+
 var _ArrowDown = _interopRequireDefault(require("./ArrowDown"));
 
 var _actions = require("./actions");
@@ -51,47 +53,51 @@ const AmPmInputHelper = props => {
   } = props,
         otherProps = _objectWithoutProperties(props, ["amPm", "eachInputDropdown", "moveNext", "toggleAmPm", "manuallyDisplayDropdown", "setValue", "fullTimeDropdown", "inputRef", "movePrev"]);
 
-  const onMoveNext = () => {
+  const onMoveNext = (0, _react.useCallback)(() => {
     if (moveNext) {
       moveNext();
       setInputFocused(false);
     }
-  };
+  }, [moveNext, setInputFocused]);
 
   const propsAndState = _objectSpread(_objectSpread({}, props), {}, {
     inputFocused,
     setInputFocused
   });
 
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("input", _extends({}, (0, _actions.getSameInputProps)(propsAndState), {
+  const onSideArrowTap = (0, _actions.useOnSideArrowTap)(moveNext, movePrev);
+  const onKeyDown = (0, _react.useCallback)(e => {
+    var _key$toLocaleLowerCas, _key$toLocaleLowerCas2;
+
+    const {
+      key
+    } = e || {};
+    e.preventDefault();
+    e.stopPropagation();
+    onSideArrowTap(e);
+    const aPressed = (key === null || key === void 0 ? void 0 : (_key$toLocaleLowerCas = key.toLocaleLowerCase) === null || _key$toLocaleLowerCas === void 0 ? void 0 : _key$toLocaleLowerCas.call(key)) === "a";
+
+    if (key === "ArrowUp" || key === "ArrowDown") {
+      toggleAmPm();
+    } else if ((key === null || key === void 0 ? void 0 : (_key$toLocaleLowerCas2 = key.toLocaleLowerCase) === null || _key$toLocaleLowerCas2 === void 0 ? void 0 : _key$toLocaleLowerCas2.call(key)) === "p" || aPressed) {
+      setValue(aPressed ? "AM" : "PM");
+      onMoveNext();
+    }
+  }, [onMoveNext, setValue, toggleAmPm, onSideArrowTap]);
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_KeyDown.default, {
+    onKeyDown: onKeyDown,
+    reference: inputRef
+  }, /*#__PURE__*/_react.default.createElement("input", _extends({}, (0, _actions.getSameInputProps)(propsAndState), {
     value: amPm,
     type: "text"
   }, otherProps, {
-    readOnly: true,
-    onKeyDown: e => {
-      e.preventDefault();
-      e.stopPropagation();
-      (0, _actions.onEscapeOrEnterTap)(e, propsAndState);
-      (0, _actions.onSideArrowTap)(e, propsAndState);
-
-      if (e.key.toLocaleLowerCase() === "p" || e.key === "ArrowUp" || e.key === "ArrowDown" || e.key.toLocaleLowerCase() === "a") {
-        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-          toggleAmPm();
-        } else if (e.key.toLocaleLowerCase() === "p") {
-          setValue("PM");
-          onMoveNext();
-        } else if (e.key.toLocaleLowerCase() === "a") {
-          setValue("AM");
-          onMoveNext();
-        }
-      }
-    }
-  })), eachInputDropdown && manuallyDisplayDropdown && /*#__PURE__*/_react.default.createElement(_ArrowDown.default, {
+    readOnly: true
+  }))), eachInputDropdown && manuallyDisplayDropdown && /*#__PURE__*/_react.default.createElement(_ArrowDown.default, {
     onClick: () => {
-      setTimeout(() => setInputFocused(!inputFocused), 15);
+      _actions.timers.push(setTimeout(() => setInputFocused(!inputFocused), 15));
     }
   }), /*#__PURE__*/_react.default.createElement(_UnitDropdown.default, {
-    data: ["AM", "PM"],
+    data: data,
     shouldDisplay: eachInputDropdown,
     manuallyDisplayDropdown: manuallyDisplayDropdown,
     type: "notRange",
@@ -104,5 +110,6 @@ const AmPmInputHelper = props => {
   }));
 };
 
+const data = ["AM", "PM"];
 var _default = AmPmInputHelper;
 exports.default = _default;
