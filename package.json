@@ -74,8 +74,7 @@
     ]
   },
   "dependencies": {
-    "core-js": "^3.20.3",
-    "react": "^17.0.2"
+    "core-js": "^3.20.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
@@ -84,7 +83,8 @@
     "react-scripts": "4.0.3"
   },
   "optionalDependencies": {
-    "preact": "^10.6.4",
+    "react": "16.14.0",
+    "preact": "10.6.4",
     "web-vitals": "^1.0.1"
   }
 }
