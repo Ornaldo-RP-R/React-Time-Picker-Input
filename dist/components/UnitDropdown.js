@@ -1,31 +1,31 @@
+import "core-js/modules/es.array.map.js";
 import "core-js/modules/es.regexp.exec.js";
 import "core-js/modules/es.string.replace.js";
 import "core-js/modules/es.array.includes.js";
 import "core-js/modules/es.string.includes.js";
 import "core-js/modules/es.parse-int.js";
 import "core-js/modules/es.array.reduce.js";
+import "core-js/modules/es.object.to-string.js";
 import React, { useEffect, useRef } from "react";
 import { doubleChar, getTimeString, timers } from "./actions";
 import TransitionReplace from "./TransitionReplace";
-const UnitDropdown = props => {
-  const {
-    data,
-    dropdownVisibility,
-    manuallyDisplayDropdown,
-    shouldDisplay,
-    hour12Format,
-    setDropdownVisibility,
-    type,
-    range,
-    moveNext,
-    setValue,
-    value,
-    className,
-    fullTimeDropdownVisibility
-  } = props;
-  const dropdownRef = useRef(null);
+var UnitDropdown = props => {
+  var data = props.data,
+    dropdownVisibility = props.dropdownVisibility,
+    manuallyDisplayDropdown = props.manuallyDisplayDropdown,
+    shouldDisplay = props.shouldDisplay,
+    hour12Format = props.hour12Format,
+    setDropdownVisibility = props.setDropdownVisibility,
+    type = props.type,
+    range = props.range,
+    moveNext = props.moveNext,
+    setValue = props.setValue,
+    value = props.value,
+    className = props.className,
+    fullTimeDropdownVisibility = props.fullTimeDropdownVisibility;
+  var dropdownRef = useRef(null);
   useEffect(() => {
-    const hideDropdown = () => setDropdownVisibility(false);
+    var hideDropdown = () => setDropdownVisibility(false);
     window.addEventListener("click", hideDropdown);
     document.querySelector("body").addEventListener("click", hideDropdown);
     return () => {
@@ -41,13 +41,13 @@ const UnitDropdown = props => {
     ref: dropdownRef,
     className: "inputWrapper__dropdown ".concat(className || "")
   }, data.map((unit, index) => {
-    const unitLabel = type === "notRange" ? unit : doubleChar(range.start + index);
-    let currentUnit = unitLabel;
+    var unitLabel = type === "notRange" ? unit : doubleChar(range.start + index);
+    var currentUnit = unitLabel;
     if (fullTimeDropdownVisibility) {
       currentUnit = unitLabel.replace(/ /g, "");
-      const amPm = currentUnit.toLowerCase().includes("pm") ? "PM" : "AM";
-      const hour = parseInt(currentUnit.split(":")[0]);
-      const dateParts = {
+      var amPm = currentUnit.toLowerCase().includes("pm") ? "PM" : "AM";
+      var hour = parseInt(currentUnit.split(":")[0]);
+      var dateParts = {
         hour: amPm === "AM" && hour === 12 ? "00" : hour,
         minute: currentUnit.split(":")[1].replace("AM", "").replace("PM", ""),
         amPm
@@ -74,18 +74,18 @@ const UnitDropdown = props => {
     }, /*#__PURE__*/React.createElement("div", null, unitLabel.replace("AM", "").replace("PM", "")), unitLabel.toLowerCase().includes("am") && /*#__PURE__*/React.createElement("div", null, "AM"), unitLabel.toLowerCase().includes("pm") && /*#__PURE__*/React.createElement("div", null, "PM"));
   })));
 };
-const additionalHeightProp = ["borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom", "marginBottom", "marginTop"];
-const getStyleWithoutPx = (element, styleProp) => {
+var additionalHeightProp = ["borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom", "marginBottom", "marginTop"];
+var getStyleWithoutPx = (element, styleProp) => {
   return parseInt((element.currentStyle || window.getComputedStyle(element))[styleProp].replace("px", ""));
 };
-const scrollToActiveUnit = (currentUnit, index, ref) => {
-  let activeUnit = document.querySelector("[data-key=\"".concat(currentUnit, "\"]"));
-  let scrollContainer = ref.current;
+var scrollToActiveUnit = (currentUnit, index, ref) => {
+  var activeUnit = document.querySelector("[data-key=\"".concat(currentUnit, "\"]"));
+  var scrollContainer = ref.current;
   if (scrollContainer && activeUnit) {
-    const scrollerAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(scrollContainer, prop)).reduce((a, b) => a + b, 0);
-    const activeUnitAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(activeUnit, prop)).reduce((a, b) => a + b, 0);
-    const activeUnitHeight = activeUnit.getBoundingClientRect().height + activeUnitAdditionalHeight;
-    const scrollContainerHeight = scrollContainer.getBoundingClientRect().height + scrollerAdditionalHeight;
+    var scrollerAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(scrollContainer, prop)).reduce((a, b) => a + b, 0);
+    var activeUnitAdditionalHeight = additionalHeightProp.map(prop => getStyleWithoutPx(activeUnit, prop)).reduce((a, b) => a + b, 0);
+    var activeUnitHeight = activeUnit.getBoundingClientRect().height + activeUnitAdditionalHeight;
+    var scrollContainerHeight = scrollContainer.getBoundingClientRect().height + scrollerAdditionalHeight;
     scrollContainer.scrollTo({
       top: activeUnitHeight * index - scrollContainerHeight / 2,
       behavior: "smooth"
