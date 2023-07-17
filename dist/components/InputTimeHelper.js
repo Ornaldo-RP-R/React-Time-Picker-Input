@@ -1,4 +1,6 @@
 import "core-js/modules/es.symbol.description.js";
+import "core-js/modules/es.array.iterator.js";
+import "core-js/modules/web.dom-collections.iterator.js";
 import "core-js/modules/es.array.slice.js";
 import "core-js/modules/es.array.from.js";
 import "core-js/modules/es.regexp.test.js";
@@ -21,9 +23,6 @@ import "core-js/modules/es.parse-int.js";
 import "core-js/modules/es.regexp.exec.js";
 import "core-js/modules/es.string.replace.js";
 import "core-js/modules/es.regexp.to-string.js";
-import "core-js/modules/es.array.iterator.js";
-import "core-js/modules/es.promise.js";
-import "core-js/modules/web.dom-collections.iterator.js";
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -160,7 +159,7 @@ var Input = props => {
     if (parseInt(value.toString()) === start) {
       setSafeValue(doubleChar(end));
     } else if (value.toString() === hourLimit && toggleAmPm) {
-      Promise.all([setSafeValue(newHour), toggleAmPm()]);
+      toggleAmPm(undefined, newHour);
     } else {
       setSafeValue(doubleChar(parseInt(value) + hourAcc));
     }

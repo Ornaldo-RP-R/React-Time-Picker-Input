@@ -1,13 +1,9 @@
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 import "core-js/modules/es.regexp.exec.js";
 import "core-js/modules/es.string.replace.js";
 import "core-js/modules/es.array.includes.js";
 import "core-js/modules/es.string.includes.js";
+import "core-js/modules/es.json.stringify.js";
 import "core-js/modules/web.dom-collections.for-each.js";
 import "core-js/modules/es.array.flat.js";
 import "core-js/modules/es.array.unscopables.flat.js";
@@ -25,6 +21,11 @@ import "core-js/modules/es.error.cause.js";
 import "core-js/modules/es.array.filter.js";
 import "core-js/modules/es.object.get-own-property-descriptors.js";
 import "core-js/modules/es.object.assign.js";
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -48,26 +49,36 @@ function TimeInput(props) {
     manuallyDisplayDropdown = props.manuallyDisplayDropdown,
     fullTimeDropdown = props.fullTimeDropdown;
   var dateParts = getDatePartsByProps(value, hour12Format);
-  var _useState = useState(dateParts.hour),
+  var _useState = useState(dateParts),
     _useState2 = _slicedToArray(_useState, 2),
-    hour = _useState2[0],
-    setHour = _useState2[1];
-  var _useState3 = useState(dateParts.minute),
+    time = _useState2[0],
+    setTime = _useState2[1];
+  var _useState3 = useState(isOnMobileDevice()),
     _useState4 = _slicedToArray(_useState3, 2),
-    minute = _useState4[0],
-    setMinutes = _useState4[1];
-  var _useState5 = useState(dateParts.amPm),
-    _useState6 = _slicedToArray(_useState5, 2),
-    amPm = _useState6[0],
-    setAmPM = _useState6[1];
-  var _useState7 = useState(isOnMobileDevice()),
-    _useState8 = _slicedToArray(_useState7, 2),
-    isMobile = _useState8[0],
-    setIsMobile = _useState8[1];
+    isMobile = _useState4[0],
+    setIsMobile = _useState4[1];
   var hourRef = useRef(null);
   var minuteRef = useRef(null);
   var amPmRef = useRef(null);
   var timeToUpdate = useRef(null);
+  var setHour = useCallback(function (newHour) {
+    var other = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return setTime(t => _objectSpread(_objectSpread({}, t), {}, {
+      hour: newHour
+    }, other));
+  }, [setTime]);
+  var setMinutes = useCallback(function (newMinute) {
+    var other = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return setTime(t => _objectSpread(_objectSpread({}, t), {}, {
+      minute: newMinute
+    }, other));
+  }, [setTime]);
+  var setAmPM = useCallback(function (newAmPm) {
+    var other = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return setTime(t => _objectSpread(_objectSpread({}, t), {}, {
+      amPm: newAmPm
+    }, other));
+  }, [setTime]);
   var hourRange = useMemo(() => hour12Format ? {
     start: 1,
     end: 12
@@ -80,7 +91,7 @@ function TimeInput(props) {
   var focusOnHour = useCallback(() => focusOn(hourRef), []);
   var focusOnAmPm = useCallback(() => focusOn(amPmRef), []);
   var blurOnAmPm = useCallback(() => blurOn(amPmRef), []);
-  var toggleAmPm = useCallback(() => setAmPM(prevAmPm => prevAmPm === "AM" ? "PM" : "AM"), [setAmPM]);
+  var toggleAmPm = useCallback(other => setAmPM(prevAmPm => prevAmPm === "AM" ? "PM" : "AM", other), [setAmPM]);
   var updateTouchDevice = () => setIsMobile(isOnMobileDevice());
   var setTimeHourString = useCallback(value => {
     if (new Date().getTime() - (timeToUpdate === null || timeToUpdate === void 0 ? void 0 : timeToUpdate.current) >= 20) {
@@ -97,12 +108,16 @@ function TimeInput(props) {
     }
   }, [hour12Format]);
   useEffect(() => {
+    var _ref = time || {},
+      hour = _ref.hour,
+      minute = _ref.minute,
+      amPm = _ref.amPm;
     var dateString = getTimeString(hour, minute, amPm, hour12Format);
     onChangeEveryFormat && onChangeEveryFormat(dateString);
     if (hour !== "" && minute !== "" && !isMobile) {
       onChange && onChange(dateString);
     }
-  }, [hour, minute, amPm]);
+  }, [JSON.stringify(time)]);
   useEffect(() => {
     if (!isMobile) setTimeHourString(value);
   }, [value]);
@@ -132,7 +147,7 @@ function TimeInput(props) {
     onChange: onChange
   }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(InputTimeHelper, _extends({
     inputRef: hourRef,
-    value: hour,
+    value: time === null || time === void 0 ? void 0 : time.hour,
     setValue: setHour
   }, sameInputProps, {
     moveNext: focusOnMinute,
@@ -140,7 +155,7 @@ function TimeInput(props) {
     toggleAmPm: toggleAmPm
   })), /*#__PURE__*/React.createElement(InputTimeHelper, _extends({
     inputRef: minuteRef,
-    value: minute
+    value: time === null || time === void 0 ? void 0 : time.minute
   }, sameInputProps, {
     setValue: setMinutes,
     moveNext: hour12Format ? focusOnAmPm : blurOnMinute,
@@ -150,13 +165,13 @@ function TimeInput(props) {
     className: "inputWrapper"
   }, /*#__PURE__*/React.createElement(AmPmInputHelper, _extends({}, amPmInputProps, {
     inputRef: amPmRef,
-    amPm: amPm,
+    amPm: time === null || time === void 0 ? void 0 : time.amPm,
     movePrev: focusOnMinute,
     moveNext: blurOnAmPm,
     toggleAmPm: toggleAmPm,
     setValue: setAmPM
   }))), /*#__PURE__*/React.createElement(Options, {
-    timeString: getTimeString(hour, minute, amPm, hour12Format),
+    timeString: getTimeString(time === null || time === void 0 ? void 0 : time.hour, time === null || time === void 0 ? void 0 : time.minute, time === null || time === void 0 ? void 0 : time.amPm, hour12Format),
     hour12Format,
     fullTimeDropdown,
     manuallyDisplayDropdown,
@@ -192,10 +207,10 @@ var Options = /*#__PURE__*/memo(props => {
     manuallyDisplayDropdown = props.manuallyDisplayDropdown,
     setTimeHourString = props.setTimeHourString,
     timeString = props.timeString;
-  var _useState9 = useState(false),
-    _useState10 = _slicedToArray(_useState9, 2),
-    fullTimeDropdownVisibility = _useState10[0],
-    setFullTimeDropdownVisibility = _useState10[1];
+  var _useState5 = useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    fullTimeDropdownVisibility = _useState6[0],
+    setFullTimeDropdownVisibility = _useState6[1];
   useEffect(() => {
     var hideDropdown = e => setFullTimeDropdownVisibility(false);
     window.addEventListener("click", hideDropdown);
@@ -234,10 +249,10 @@ var minuteRange = {
 var MobileInput = /*#__PURE__*/memo(props => {
   var value = props.value,
     _onChange = props.onChange;
-  var _useState11 = useState(value),
-    _useState12 = _slicedToArray(_useState11, 2),
-    valueMobile = _useState12[0],
-    setValueMobile = _useState12[1];
+  var _useState7 = useState(value),
+    _useState8 = _slicedToArray(_useState7, 2),
+    valueMobile = _useState8[0],
+    setValueMobile = _useState8[1];
   return /*#__PURE__*/React.createElement("div", {
     className: "input-time-mobile"
   }, /*#__PURE__*/React.createElement("input", {
