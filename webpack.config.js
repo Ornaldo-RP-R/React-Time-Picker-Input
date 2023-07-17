@@ -2,7 +2,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
-  entry: "src/lib/index.js", // Entry point of your package
+  entry: "./src/lib/index.js", // Entry point of your package
   output: {
     filename: "index.js",
     path: __dirname + "/dist",
@@ -40,9 +40,5 @@ module.exports = {
         },
       },
     ],
-  },
-  externals: {
-    react: "React", // Exclude React from the bundle if it's a peer dependency
-    "react-dom": "ReactDOM", // Exclude ReactDOM if it's a peer dependency
   },
 };
