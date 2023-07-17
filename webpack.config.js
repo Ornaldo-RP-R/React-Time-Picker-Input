@@ -7,7 +7,7 @@ module.exports = {
     filename: "index.js",
     path: __dirname + "/dist",
     libraryTarget: "umd",
-    library: "YourPackageName",
+    library: "ReactTimePickerInput", // Update the library name
     umdNamedDefine: true,
     globalObject: "typeof self !== 'undefined' ? self : this",
   },
