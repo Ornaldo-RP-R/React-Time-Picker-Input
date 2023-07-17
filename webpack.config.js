@@ -1,44 +1,36 @@
-const TerserPlugin = require("terser-webpack-plugin");
+const path = require("path");
 
 module.exports = {
   mode: "production",
-  entry: "./src/lib/index.js", // Entry point of your package
+  entry: "./src/lib/index.js",
   output: {
-    filename: "index.js",
-    path: __dirname + "/dist",
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
     libraryTarget: "umd",
-    library: "ReactTimePickerInput", // Update the library name
-    umdNamedDefine: true,
-    globalObject: "typeof self !== 'undefined' ? self : this",
-  },
-  optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin()],
+    library: "MyLibrary",
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  targets: {
-                    chrome: "49", // Set Chrome 49 as the target
-                  },
-                  useBuiltIns: "usage",
-                  corejs: "3.20.3",
-                },
-              ],
-              "@babel/preset-react",
-            ],
+            presets: ["@babel/preset-env", "@babel/preset-react"],
           },
         },
       },
     ],
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
+    alias: {
+      react: path.resolve(__dirname, "node_modules/react@{desired_version}"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom@{desired_version}"),
+    },
+  },
+  optimization: {
+    minimize: true, // Enable code minification
   },
 };
