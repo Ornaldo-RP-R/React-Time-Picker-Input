@@ -18,14 +18,16 @@ function TimeInput(props) {
     fullTimeDropdown,
   } = props;
   const dateParts = getDatePartsByProps(value, hour12Format);
-  const [hour, setHour] = useState(dateParts.hour);
-  const [minute, setMinutes] = useState(dateParts.minute);
-  const [amPm, setAmPM] = useState(dateParts.amPm);
+  const [time, setTime] = useState(dateParts);
   const [isMobile, setIsMobile] = useState(isOnMobileDevice());
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const amPmRef = useRef(null);
   let timeToUpdate = useRef(null);
+
+  const setHour = useCallback((newHour,other = {}) => setTime((t) => ({ ...t, hour: newHour , ...other })), [setTime]);
+  const setMinutes = useCallback((newMinute, other = {}) => setTime((t) => ({ ...t, minute: newMinute , ...other })), [setTime]);
+  const setAmPM = useCallback((newAmPm,other = {}) => setTime((t) => ({ ...t, amPm: newAmPm , ...other })), [setTime]);
 
   const hourRange = useMemo(()=>hour12Format ? { start: 1, end: 12 } : { start: 0, end: 23 },[hour12Format]);
   const focusOnMinute = useCallback(() => focusOn(minuteRef),[]);
@@ -34,7 +36,7 @@ function TimeInput(props) {
   const focusOnAmPm = useCallback(() => focusOn(amPmRef), []);
   const blurOnAmPm = useCallback(() => blurOn(amPmRef), []);
 
-  const toggleAmPm = useCallback(() => setAmPM((prevAmPm) => (prevAmPm === "AM" ? "PM" : "AM")), [setAmPM]);
+  const toggleAmPm = useCallback((other) => setAmPM((prevAmPm) => (prevAmPm === "AM" ? "PM" : "AM"), other), [setAmPM]);
 
   const updateTouchDevice = () => setIsMobile(isOnMobileDevice());
 
@@ -57,12 +59,13 @@ const setTimeHourString = useCallback(
 );
 
   useEffect(() => {
+    const {hour, minute, amPm} = time || {};
     const dateString=getTimeString(hour, minute, amPm, hour12Format);
     onChangeEveryFormat && onChangeEveryFormat(dateString);
     if (hour !== "" && minute !== "" && !isMobile) {
       onChange && onChange(dateString);
     }
-  }, [hour, minute, amPm]);
+  }, [JSON.stringify(time)]);
 
   useEffect(() => {
     if (!isMobile) setTimeHourString(value);
@@ -93,7 +96,7 @@ const setTimeHourString = useCallback(
           <React.Fragment>
             <InputTimeHelper
               inputRef={hourRef}
-              value={hour}
+              value={time?.hour}
               setValue={setHour}
               {...sameInputProps}
               moveNext={focusOnMinute}
@@ -102,7 +105,7 @@ const setTimeHourString = useCallback(
             />
             <InputTimeHelper
               inputRef={minuteRef}
-              value={minute}
+              value={time?.minute}
               {...sameInputProps}
               setValue={setMinutes}
               moveNext={hour12Format ? focusOnAmPm : blurOnMinute}
@@ -114,7 +117,7 @@ const setTimeHourString = useCallback(
                 <AmPmInputHelper
                   {...amPmInputProps}
                   inputRef={amPmRef}
-                  amPm={amPm}
+                  amPm={time?.amPm}
                   movePrev={focusOnMinute}
                   moveNext={blurOnAmPm}
                   toggleAmPm={toggleAmPm}
@@ -123,7 +126,7 @@ const setTimeHourString = useCallback(
               </div>
             )}
             <Options
-              timeString={getTimeString(hour, minute, amPm, hour12Format)}
+              timeString={getTimeString(time?.hour, time?.minute, time?.amPm, hour12Format)}
               {...{ hour12Format, fullTimeDropdown, manuallyDisplayDropdown, setTimeHourString }}
             />
           </React.Fragment>
