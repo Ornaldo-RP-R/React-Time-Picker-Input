@@ -1,3 +1,4 @@
-# Browsers that we support
-
-defaults
+Edge >= 17
+Firefox >= 60
+Chrome >= 48
+Safari >= 11.1
