@@ -5,7 +5,7 @@ module.exports = {
   entry: "./src/lib/index.js", // Entry point of your package
   output: {
     filename: "index.js",
-    path: __dirname + "/dist/components",
+    path: __dirname + "/dist",
     libraryTarget: "umd",
     library: "YourPackageName",
     umdNamedDefine: true,
