@@ -60,7 +60,6 @@ function TimeInput(props) {
   var hourRef = useRef(null);
   var minuteRef = useRef(null);
   var amPmRef = useRef(null);
-  var timeToUpdate = useRef(null);
   var setHour = useCallback(function (newHour) {
     var other = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     return setTime(t => _objectSpread(_objectSpread({}, t), {}, {
@@ -94,17 +93,14 @@ function TimeInput(props) {
   var toggleAmPm = useCallback(other => setAmPM(prevAmPm => prevAmPm === "AM" ? "PM" : "AM", other), [setAmPM]);
   var updateTouchDevice = () => setIsMobile(isOnMobileDevice());
   var setTimeHourString = useCallback(value => {
-    if (new Date().getTime() - (timeToUpdate === null || timeToUpdate === void 0 ? void 0 : timeToUpdate.current) >= 20) {
-      var _dateParts = getDatePartsByProps(value.replace(/ /g, ""), hour12Format);
-      setHour(_dateParts.hour);
-      setMinutes(_dateParts.minute);
-      setAmPM(_dateParts.amPm);
-      if (value.toLowerCase().includes("am")) {
-        setAmPM("AM");
-      } else if (value.toLowerCase().includes("pm")) {
-        setAmPM("PM");
-      }
-      timeToUpdate.current = new Date().getTime();
+    var dateParts = getDatePartsByProps(value.replace(/ /g, ""), hour12Format);
+    setHour(dateParts.hour);
+    setMinutes(dateParts.minute);
+    setAmPM(dateParts.amPm);
+    if (value.toLowerCase().includes("am")) {
+      setAmPM("AM");
+    } else if (value.toLowerCase().includes("pm")) {
+      setAmPM("PM");
     }
   }, [hour12Format]);
   useEffect(() => {
