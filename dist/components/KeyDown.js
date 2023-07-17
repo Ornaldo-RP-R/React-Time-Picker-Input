@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isChrome51OrLower } from "../../../dist/components/actions";
+import { isChrome51OrLower } from "../components/actions";
 var keydownInterruptedRef = false;
 var KeyDown = props => {
   var onKeyDown = props.onKeyDown,

@@ -67,3 +67,15 @@ export const getTimeString = (hour, minute, amPm, hour12Format) => {
   // let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
   return dateString24;
 };
+
+export function isChrome51OrLower() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  const chromeMatch = userAgent.match(/chrome\/(\d+)/);
+
+  if (chromeMatch) {
+    const chromeVersion = parseInt(chromeMatch[1], 10);
+    return chromeVersion <= 51;
+  }
+
+  return false;
+}
