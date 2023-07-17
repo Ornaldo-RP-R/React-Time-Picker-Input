@@ -75,8 +75,8 @@
   },
   "dependencies": {
     "core-js": "^3.20.3",
-    "react": "15",
-    "react-dom": "15"
+    "react": "15.7.0",
+    "react-dom": "15.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
