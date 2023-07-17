@@ -176,20 +176,24 @@ const Input = (props) => {
 
   return (
     <KeyDown onKeyDown={onKeyDown} reference={inputRef}>
-      <input
-        {...getSameInputProps(propsAndState)}
-        onFocus={() => {
-          setFirstFocus(true);
-          setChangeCount(0);
-        }}
-        {...otherProps}
-        value={value}
-        onChange={(e) => setChangedValue(e.target.value)}
-        onClick={(e) => e.stopPropagation()}
-        type="number"
-        min={start}
-        max={end}
-      />
+      {(onKeyDown, onKeyUp) => (
+        <input
+          onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
+          {...getSameInputProps(propsAndState)}
+          onFocus={() => {
+            setFirstFocus(true);
+            setChangeCount(0);
+          }}
+          {...otherProps}
+          value={value}
+          onChange={(e) => setChangedValue(e.target.value)}
+          onClick={(e) => e.stopPropagation()}
+          type="number"
+          min={start}
+          max={end}
+        />
+      )}
     </KeyDown>
   );
 };

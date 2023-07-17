@@ -51,7 +51,17 @@ const AmPmInputHelper = (props) => {
   return (
     <React.Fragment>
       <KeyDown onKeyDown={onKeyDown} reference={inputRef}>
-       <input {...getSameInputProps(propsAndState)} value={amPm} type="text" {...otherProps} readOnly />
+        {(onKeyDown, onKeyUp) => (
+          <input
+            onKeyDown={onKeyDown}
+            onKeyUp={onKeyUp}
+            {...getSameInputProps(propsAndState)}
+            value={amPm}
+            type="text"
+            {...otherProps}
+            readOnly
+          />
+        )}
       </KeyDown>
       {eachInputDropdown && manuallyDisplayDropdown && (
         <ArrowDown
