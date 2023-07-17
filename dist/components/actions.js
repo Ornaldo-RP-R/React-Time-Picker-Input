@@ -1,5 +1,4 @@
 import "core-js/modules/es.array.slice.js";
-import "core-js/modules/es.object.to-string.js";
 import "core-js/modules/es.regexp.to-string.js";
 import "core-js/modules/es.string.trim.js";
 import "core-js/modules/es.parse-int.js";

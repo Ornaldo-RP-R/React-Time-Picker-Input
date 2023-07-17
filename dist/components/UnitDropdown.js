@@ -5,7 +5,6 @@ import "core-js/modules/es.array.includes.js";
 import "core-js/modules/es.string.includes.js";
 import "core-js/modules/es.parse-int.js";
 import "core-js/modules/es.array.reduce.js";
-import "core-js/modules/es.object.to-string.js";
 import React, { useEffect, useRef } from "react";
 import { doubleChar, getTimeString, timers } from "./actions";
 import TransitionReplace from "./TransitionReplace";
