@@ -101,7 +101,7 @@ const setTimeHourString = useCallback(
               {...sameInputProps}
               moveNext={focusOnMinute}
               range={hourRange}
-              toggleAmPm={toggleAmPm}
+              amPm={time?.amPm}
             />
             <InputTimeHelper
               inputRef={minuteRef}

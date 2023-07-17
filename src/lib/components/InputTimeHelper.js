@@ -16,8 +16,8 @@ const InputTimeHelper = (props) => {
   const [inputFocused, setInputFocused] = useState(false);
   const {start,end} = range || {};
   const setSafeValue = useCallback(
-    (value) => {
-      if (parseInt(value) >= start && parseInt(value) <= end) setValue(value);
+    (value,other) => {
+      if (parseInt(value) >= start && parseInt(value) <= end) setValue(value, other);
     },
     [start, end, setValue]
   );
@@ -84,6 +84,7 @@ const Input = (props) => {
     setInputFocused,
     setSafeValue,
     onMoveNext,
+    amPm,
     ...otherProps
   } = props; 
   const { start, end } = range || {};
@@ -136,13 +137,13 @@ const Input = (props) => {
     (start, end, hourLimit, newHour, hourAcc) => {
       if (parseInt(value.toString()) === start) {
         setSafeValue(doubleChar(end));
-      } else if (value.toString() === hourLimit && toggleAmPm) {
-        toggleAmPm(undefined, {hour:newHour});
+      } else if (value.toString() === hourLimit && amPm !== undefined) {
+        setSafeValue(newHour, !amPm);
       } else {
         setSafeValue(doubleChar(parseInt(value) + hourAcc));
       }
     },
-    [value, toggleAmPm, setSafeValue]
+    [value, setSafeValue, amPm]
   );
 
   const onArrowDownTap = useCallback(

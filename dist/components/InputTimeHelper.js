@@ -159,7 +159,9 @@ var Input = props => {
     if (parseInt(value.toString()) === start) {
       setSafeValue(doubleChar(end));
     } else if (value.toString() === hourLimit && toggleAmPm) {
-      toggleAmPm(undefined, newHour);
+      toggleAmPm(undefined, {
+        hour: newHour
+      });
     } else {
       setSafeValue(doubleChar(parseInt(value) + hourAcc));
     }
