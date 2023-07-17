@@ -74,9 +74,7 @@
     ]
   },
   "dependencies": {
-    "core-js": "^3.20.3",
-    "react": "15.7.0",
-    "react-dom": "15.7.0"
+    "core-js": "^3.20.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
@@ -90,6 +88,7 @@
     "webpack-cli": "^5.1.4"
   },
   "optionalDependencies": {
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "react": "15.7.0"
   }
 }
