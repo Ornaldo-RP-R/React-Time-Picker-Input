@@ -76,7 +76,10 @@ var AmPmInputHelper = props => {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(KeyDown, {
     onKeyDown: onKeyDown,
     reference: inputRef
-  }, /*#__PURE__*/React.createElement("input", _extends({}, getSameInputProps(propsAndState), {
+  }, (onKeyDown, onKeyUp) => /*#__PURE__*/React.createElement("input", _extends({
+    onKeyDown: onKeyDown,
+    onKeyUp: onKeyUp
+  }, getSameInputProps(propsAndState), {
     value: amPm,
     type: "text"
   }, otherProps, {

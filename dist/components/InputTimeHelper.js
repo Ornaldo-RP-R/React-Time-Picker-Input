@@ -183,7 +183,10 @@ var Input = props => {
   return /*#__PURE__*/React.createElement(KeyDown, {
     onKeyDown: onKeyDown,
     reference: inputRef
-  }, /*#__PURE__*/React.createElement("input", _extends({}, getSameInputProps(propsAndState), {
+  }, (onKeyDown, onKeyUp) => /*#__PURE__*/React.createElement("input", _extends({
+    onKeyDown: onKeyDown,
+    onKeyUp: onKeyUp
+  }, getSameInputProps(propsAndState), {
     onFocus: () => {
       setFirstFocus(true);
       setChangeCount(0);
