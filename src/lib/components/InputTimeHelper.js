@@ -137,8 +137,7 @@ const Input = (props) => {
       if (parseInt(value.toString()) === start) {
         setSafeValue(doubleChar(end));
       } else if (value.toString() === hourLimit && toggleAmPm) {
-        setSafeValue(newHour);
-        toggleAmPm();
+        Promise.all([setSafeValue(newHour), toggleAmPm()]);
       } else {
         setSafeValue(doubleChar(parseInt(value) + hourAcc));
       }

@@ -2,6 +2,8 @@ import "core-js/modules/es.array.slice.js";
 import "core-js/modules/es.regexp.to-string.js";
 import "core-js/modules/es.string.trim.js";
 import "core-js/modules/es.parse-int.js";
+import "core-js/modules/es.regexp.exec.js";
+import "core-js/modules/es.string.match.js";
 import { useCallback } from "react";
 export var timers = [];
 export var doubleChar = value => ((value === null || value === void 0 ? void 0 : value.length) >= 2 ? value : "0" + value).slice(-2);
@@ -61,3 +63,12 @@ export var getTimeString = (hour, minute, amPm, hour12Format) => {
   // let amPmString = parseInt(hour24) < 12 ? "AM" : "PM";
   return dateString24;
 };
+export function isChrome51OrLower() {
+  var userAgent = navigator.userAgent.toLowerCase();
+  var chromeMatch = userAgent.match(/chrome\/(\d+)/);
+  if (chromeMatch) {
+    var chromeVersion = parseInt(chromeMatch[1], 10);
+    return chromeVersion <= 51;
+  }
+  return false;
+}
