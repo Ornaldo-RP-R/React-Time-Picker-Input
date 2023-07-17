@@ -26,8 +26,8 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx"],
     alias: {
-      react: path.resolve(__dirname, "node_modules/react@{desired_version}"),
-      "react-dom": path.resolve(__dirname, "node_modules/react-dom@{desired_version}"),
+      react: path.resolve(__dirname, "node_modules/react@15.7.0"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom@15.7.0"),
     },
   },
   optimization: {
