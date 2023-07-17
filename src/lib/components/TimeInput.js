@@ -25,6 +25,7 @@ function TimeInput(props) {
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const amPmRef = useRef(null);
+  let timeToUpdate = useRef(null);
 
   const hourRange = useMemo(()=>hour12Format ? { start: 1, end: 12 } : { start: 0, end: 23 },[hour12Format]);
   const focusOnMinute = useCallback(() => focusOn(minuteRef),[]);
@@ -37,8 +38,9 @@ function TimeInput(props) {
 
   const updateTouchDevice = () => setIsMobile(isOnMobileDevice());
 
-  const setTimeHourString = useCallback(
-    (value) => {
+const setTimeHourString = useCallback(
+  (value) => {
+    if (new Date().getTime() - timeToUpdate?.current >= 20) {
       const dateParts = getDatePartsByProps(value.replace(/ /g, ""), hour12Format);
       setHour(dateParts.hour);
       setMinutes(dateParts.minute);
@@ -48,9 +50,11 @@ function TimeInput(props) {
       } else if (value.toLowerCase().includes("pm")) {
         setAmPM("PM");
       }
-    },
-    [hour12Format]
-  );
+      timeToUpdate.current = new Date().getTime();
+    }
+  },
+  [hour12Format]
+);
 
   useEffect(() => {
     const dateString=getTimeString(hour, minute, amPm, hour12Format);
