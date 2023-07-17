@@ -31,7 +31,7 @@
     "time picker package",
     "React component library"
   ],
-  "version": "2.1.40",
+  "version": "2.1.41",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
