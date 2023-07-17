@@ -152,7 +152,7 @@ function TimeInput(props) {
   }, sameInputProps, {
     moveNext: focusOnMinute,
     range: hourRange,
-    toggleAmPm: toggleAmPm
+    amPm: time === null || time === void 0 ? void 0 : time.amPm
   })), /*#__PURE__*/React.createElement(InputTimeHelper, _extends({
     inputRef: minuteRef,
     value: time === null || time === void 0 ? void 0 : time.minute

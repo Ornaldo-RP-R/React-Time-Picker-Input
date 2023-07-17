@@ -23,7 +23,6 @@ function TimeInput(props) {
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const amPmRef = useRef(null);
-  let timeToUpdate = useRef(null);
 
   const setHour = useCallback((newHour,other = {}) => setTime((t) => ({ ...t, hour: newHour , ...other })), [setTime]);
   const setMinutes = useCallback((newMinute, other = {}) => setTime((t) => ({ ...t, minute: newMinute , ...other })), [setTime]);
@@ -42,17 +41,14 @@ function TimeInput(props) {
 
 const setTimeHourString = useCallback(
   (value) => {
-    if (new Date().getTime() - timeToUpdate?.current >= 20) {
-      const dateParts = getDatePartsByProps(value.replace(/ /g, ""), hour12Format);
-      setHour(dateParts.hour);
-      setMinutes(dateParts.minute);
-      setAmPM(dateParts.amPm);
-      if (value.toLowerCase().includes("am")) {
-        setAmPM("AM");
-      } else if (value.toLowerCase().includes("pm")) {
-        setAmPM("PM");
-      }
-      timeToUpdate.current = new Date().getTime();
+    const dateParts = getDatePartsByProps(value.replace(/ /g, ""), hour12Format);
+    setHour(dateParts.hour);
+    setMinutes(dateParts.minute);
+    setAmPM(dateParts.amPm);
+    if (value.toLowerCase().includes("am")) {
+      setAmPM("AM");
+    } else if (value.toLowerCase().includes("pm")) {
+      setAmPM("PM");
     }
   },
   [hour12Format]
