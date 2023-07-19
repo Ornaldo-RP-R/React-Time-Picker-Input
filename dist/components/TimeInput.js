@@ -90,7 +90,7 @@ function TimeInput(props) {
   var focusOnHour = useCallback(() => focusOn(hourRef), []);
   var focusOnAmPm = useCallback(() => focusOn(amPmRef), []);
   var blurOnAmPm = useCallback(() => blurOn(amPmRef), []);
-  var toggleAmPm = useCallback(other => setAmPM(prevAmPm => prevAmPm === "AM" ? "PM" : "AM", other), [setAmPM]);
+  var toggleAmPm = useCallback(other => setAmPM((time === null || time === void 0 ? void 0 : time.amPm) === "AM" ? "PM" : "AM", other), [setAmPM, time === null || time === void 0 ? void 0 : time.amPm]);
   var updateTouchDevice = () => setIsMobile(isOnMobileDevice());
   var setTimeHourString = useCallback(value => {
     var dateParts = getDatePartsByProps(value.replace(/ /g, ""), hour12Format);
