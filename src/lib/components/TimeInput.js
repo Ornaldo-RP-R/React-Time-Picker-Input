@@ -35,8 +35,7 @@ function TimeInput(props) {
   const focusOnAmPm = useCallback(() => focusOn(amPmRef), []);
   const blurOnAmPm = useCallback(() => blurOn(amPmRef), []);
 
-  const toggleAmPm = useCallback((other) => setAmPM((prevAmPm) => (prevAmPm === "AM" ? "PM" : "AM"), other), [setAmPM]);
-
+  const toggleAmPm = useCallback((other) => setAmPM(time?.amPm === "AM" ? "PM" : "AM", other), [setAmPM, time?.amPm]);
   const updateTouchDevice = () => setIsMobile(isOnMobileDevice());
 
 const setTimeHourString = useCallback(

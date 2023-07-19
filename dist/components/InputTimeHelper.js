@@ -160,7 +160,9 @@ var Input = props => {
     if (parseInt(value.toString()) === start) {
       setSafeValue(doubleChar(end));
     } else if (value.toString() === hourLimit && amPm !== undefined) {
-      setSafeValue(newHour, !amPm);
+      setSafeValue(newHour, {
+        amPm: amPm === "AM" ? "PM" : "AM"
+      });
     } else {
       setSafeValue(doubleChar(parseInt(value) + hourAcc));
     }
