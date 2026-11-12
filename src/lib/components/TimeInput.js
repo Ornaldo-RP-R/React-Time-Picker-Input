@@ -122,7 +122,7 @@ const setTimeHourString = useCallback(
             )}
             <Options
               timeString={getTimeString(time?.hour, time?.minute, time?.amPm, hour12Format)}
-              {...{ hour12Format, fullTimeDropdown, manuallyDisplayDropdown, setTimeHourString }}
+              {...{ hour12Format, fullTimeDropdown, manuallyDisplayDropdown, setTimeHourString, disabled }}
             />
           </React.Fragment>
         )}
@@ -154,7 +154,7 @@ format12Data.forEach((hour, index) => {
 });
 
 const Options = memo(props => {
-  const { hour12Format, fullTimeDropdown, manuallyDisplayDropdown, setTimeHourString,timeString } = props;
+  const { hour12Format, fullTimeDropdown, manuallyDisplayDropdown, setTimeHourString,timeString, disabled } = props;
   const [fullTimeDropdownVisibility, setFullTimeDropdownVisibility] = useState(false);
 
   useEffect(() => {
@@ -179,14 +179,14 @@ const Options = memo(props => {
     <React.Fragment>
       {fullTimeDropdown && (
         <div>
-          <ArrowDown onClick={onArrowDown} />
+          <ArrowDown onClick={disabled ? undefined : onArrowDown} />
         </div>
       )}
       <div className="fullTime__wrapper">
         <UnitDropdown
           fullTimeDropdownVisibility
           data={hour12Format ? format12Data : format24Data}
-          shouldDisplay={fullTimeDropdown && fullTimeDropdownVisibility}
+          shouldDisplay={!disabled && fullTimeDropdown && fullTimeDropdownVisibility}
           manuallyDisplayDropdown={manuallyDisplayDropdown}
           type="notRange"
           className="fullTime"

@@ -8,6 +8,7 @@ const InputTimeHelper = (props) => {
   const {
     range,
     value,
+    disabled,
     eachInputDropdown,
     manuallyDisplayDropdown,
     setValue,
@@ -44,12 +45,13 @@ const InputTimeHelper = (props) => {
         {eachInputDropdown && manuallyDisplayDropdown && (
           <ArrowDown
             onClick={() => {
+              if (disabled) return;
               timers.push(setTimeout(() => setInputFocused(!inputFocused), 15));
             }}
           />
         )}
         <UnitDropdown
-          shouldDisplay={eachInputDropdown}
+          shouldDisplay={!disabled && eachInputDropdown}
           manuallyDisplayDropdown={manuallyDisplayDropdown}
           data={new Array(end + 1 - start).fill("")}
           {...{

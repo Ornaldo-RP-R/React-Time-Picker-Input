@@ -8,6 +8,7 @@ const AmPmInputHelper = (props) => {
   const [inputFocused, setInputFocused] = useState(false);
   const {
     amPm,
+    disabled,
     eachInputDropdown,
     moveNext,
     toggleAmPm,
@@ -66,13 +67,14 @@ const AmPmInputHelper = (props) => {
       {eachInputDropdown && manuallyDisplayDropdown && (
         <ArrowDown
           onClick={() => {
+            if (disabled) return;
             timers.push(setTimeout(() => setInputFocused(!inputFocused), 15));
           }}
         />
       )}
       <UnitDropdown
         data={data}
-        shouldDisplay={eachInputDropdown}
+        shouldDisplay={!disabled && eachInputDropdown}
         manuallyDisplayDropdown={manuallyDisplayDropdown}
         type="notRange"
         className="amPm"
